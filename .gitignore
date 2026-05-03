@@ -42,3 +42,4 @@ next-env.d.ts
 
 # raw design / source files (not part of the runtime app)
 /assets
+Screenshot*.png

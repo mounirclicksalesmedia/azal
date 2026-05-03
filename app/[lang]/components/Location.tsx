@@ -1,6 +1,6 @@
 import type { Dictionary } from '../dictionaries';
 import Reveal from './Reveal';
-import MapView from './MapView';
+import MapView from './MapViewLazy';
 
 const MAPS_QUERY = encodeURIComponent('Al Malqa, Anas bin Malik Road, Riyadh');
 

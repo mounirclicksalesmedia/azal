@@ -860,10 +860,38 @@ body {
 /* Animated marker */
 .azal-marker {
   position: relative;
-  width: 48px;
-  height: 56px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 64px;
+  height: 90px;
   pointer-events: none;
   direction: ltr;
+}
+.azal-marker__label {
+  display: inline-block;
+  margin-block-end: 4px;
+  padding: 3px 10px;
+  background: var(--bronze-900);
+  color: var(--cream);
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.3em;
+  border-radius: 9999px;
+  white-space: nowrap;
+  opacity: 0;
+  transform: translateY(6px) scale(.92);
+  animation: azalTagIn .55s cubic-bezier(.2,.8,.2,1) 1.3s forwards;
+  box-shadow: 0 6px 14px rgba(52, 39, 29, 0.32);
+}
+.azal-marker__stack {
+  position: relative;
+  flex: 1;
+  width: 48px;
+}
+@keyframes azalTagIn {
+  0%   { opacity: 0; transform: translateY(6px) scale(.92); }
+  100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 .azal-marker__pin {
   position: absolute;
@@ -909,51 +937,6 @@ body {
   100% { opacity: 1; transform: translateY(0) scale(1); }
 }
 
-.azal-map-tag {
-  position: absolute;
-  top: 16px;
-  left: 50%;
-  transform: translateX(-50%);
-  z-index: 3;
-  display: inline-flex;
-  align-items: center;
-  gap: 0.55rem;
-  padding: 0.5rem 1rem;
-  background: var(--bronze-900);
-  color: var(--cream);
-  border-radius: 9999px;
-  font-size: 0.7rem;
-  font-weight: 600;
-  letter-spacing: 0.32em;
-  box-shadow: 0 14px 32px rgba(52, 39, 29, 0.32);
-  pointer-events: none;
-  opacity: 0;
-  animation: azalMapTagIn .65s cubic-bezier(.2,.8,.2,1) .8s forwards;
-  border: 1px solid rgba(184, 145, 94, 0.45);
-  backdrop-filter: blur(8px);
-  -webkit-backdrop-filter: blur(8px);
-}
-.azal-map-tag__dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 9999px;
-  background: var(--gold);
-  box-shadow: 0 0 0 0 rgba(184, 145, 94, 0.6);
-  animation: azalMapTagDot 2s ease-out infinite;
-}
-.azal-map-tag__text {
-  font-family: var(--font-display), serif;
-}
-@keyframes azalMapTagIn {
-  0%   { opacity: 0; transform: translate(-50%, -8px) scale(.94); }
-  100% { opacity: 1; transform: translate(-50%, 0) scale(1); }
-}
-@keyframes azalMapTagDot {
-  0%   { box-shadow: 0 0 0 0 rgba(184, 145, 94, 0.65); }
-  70%  { box-shadow: 0 0 0 8px rgba(184, 145, 94, 0); }
-  100% { box-shadow: 0 0 0 0 rgba(184, 145, 94, 0); }
-}
-
 .azal-map-badge {
   position: absolute;
   bottom: 14px;
@@ -995,10 +978,9 @@ body {
   .scroll-cue::after { animation: none; }
   .azal-marker__pin,
   .azal-marker__ring,
-  .azal-map-tag,
-  .azal-map-tag__dot,
+  .azal-marker__label,
   .azal-map-badge__dot { animation: none; }
-  .azal-map-tag { opacity: 1; transform: translateX(-50%); }
+  .azal-marker__label { opacity: 1; transform: none; }
   html { scroll-behavior: auto; }
 }
 

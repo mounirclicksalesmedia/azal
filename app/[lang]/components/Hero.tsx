@@ -45,19 +45,25 @@ export default function Hero({ dict, dir }: HeroProps) {
       aria-label={dict.hero.titleLine1}
     >
       <div className="absolute inset-0">
-        {SLIDES.map((src, i) => (
-          <Image
-            key={src}
-            src={src}
-            alt=""
-            fill
-            priority={i === 0}
-            sizes="100vw"
-            className={`object-cover transition-opacity duration-[1600ms] ease-out ${
-              active === i ? 'opacity-100' : 'opacity-0'
-            }`}
-          />
-        ))}
+        {SLIDES.map((src, i) => {
+          // Render only slides that have already been shown — defers the
+          // download of slides 2-4 until the user has seen the LCP image.
+          if (i !== 0 && i > active) return null;
+          return (
+            <Image
+              key={src}
+              src={src}
+              alt=""
+              fill
+              priority={i === 0}
+              fetchPriority={i === 0 ? 'high' : 'auto'}
+              sizes="100vw"
+              className={`object-cover transition-opacity duration-[1600ms] ease-out ${
+                active === i ? 'opacity-100' : 'opacity-0'
+              }`}
+            />
+          );
+        })}
       </div>
 
       <div

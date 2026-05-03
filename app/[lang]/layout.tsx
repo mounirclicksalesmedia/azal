@@ -79,6 +79,17 @@ export default async function LocaleLayout({
       dir={dir}
       className={`${azaharDisplay.variable} ${azaharText.variable} h-full antialiased`}
     >
+      <head>
+        <link rel="preconnect" href="https://tiles.openfreemap.org" crossOrigin="" />
+        <link rel="dns-prefetch" href="https://tiles.openfreemap.org" />
+        <link rel="dns-prefetch" href="https://unpkg.com" />
+        <link
+          rel="preload"
+          as="image"
+          href="/azal/hero/hero-1.jpg"
+          fetchPriority="high"
+        />
+      </head>
       <body className="min-h-full bg-[var(--bg)] text-[var(--ink)] font-text">
         <PageLoader />
         <SmoothScroll />

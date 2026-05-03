@@ -40,7 +40,7 @@ export default function MapView({ label }: { label: string }) {
       zoom: 14.6,
       attributionControl: { compact: true },
     });
-    map.setPadding({ top: 70, bottom: 20, left: 20, right: 20 });
+    map.setPadding({ top: 130, bottom: 30, left: 20, right: 20 });
 
     mapRef.current = map;
 
@@ -54,16 +54,19 @@ export default function MapView({ label }: { label: string }) {
     markerEl.className = 'azal-marker';
     markerEl.dir = 'ltr';
     markerEl.innerHTML = `
-      <span class="azal-marker__ring azal-marker__ring--1"></span>
-      <span class="azal-marker__ring azal-marker__ring--2"></span>
-      <span class="azal-marker__ring azal-marker__ring--3"></span>
-      <span class="azal-marker__pin">
-        <svg viewBox="0 0 36 48" width="36" height="48" aria-hidden="true">
-          <path d="M18 47 C 6 30, 1 22, 1 14 A 17 17 0 0 1 35 14 C 35 22, 30 30, 18 47 Z"
-                fill="#34271D" stroke="#B8915E" stroke-width="1.2"/>
-          <circle cx="18" cy="15" r="6.5" fill="#FDF5E4"/>
-          <circle cx="18" cy="15" r="3.2" fill="#B8915E"/>
-        </svg>
+      <span class="azal-marker__label">AZAL</span>
+      <span class="azal-marker__stack">
+        <span class="azal-marker__ring azal-marker__ring--1"></span>
+        <span class="azal-marker__ring azal-marker__ring--2"></span>
+        <span class="azal-marker__ring azal-marker__ring--3"></span>
+        <span class="azal-marker__pin">
+          <svg viewBox="0 0 36 48" width="36" height="48" aria-hidden="true">
+            <path d="M18 47 C 6 30, 1 22, 1 14 A 17 17 0 0 1 35 14 C 35 22, 30 30, 18 47 Z"
+                  fill="#34271D" stroke="#B8915E" stroke-width="1.2"/>
+            <circle cx="18" cy="15" r="6.5" fill="#FDF5E4"/>
+            <circle cx="18" cy="15" r="3.2" fill="#B8915E"/>
+          </svg>
+        </span>
       </span>
     `;
 
@@ -78,7 +81,7 @@ export default function MapView({ label }: { label: string }) {
         pitch: 50,
         bearing: -18,
         duration: 2600,
-        padding: { top: 70, bottom: 20, left: 20, right: 20 },
+        padding: { top: 130, bottom: 30, left: 20, right: 20 },
       });
     });
 
@@ -105,10 +108,6 @@ export default function MapView({ label }: { label: string }) {
         data-lenis-prevent
         className="azal-map__canvas absolute inset-0 w-full h-full"
       />
-      <div className="azal-map-tag" dir="ltr" aria-hidden>
-        <span className="azal-map-tag__dot" />
-        <span className="azal-map-tag__text">AZAL</span>
-      </div>
       <div className="azal-map-badge">
         <span className="azal-map-badge__dot" />
         <span>{PROJECT_LAT.toFixed(4)}° N · {PROJECT_LNG.toFixed(4)}° E</span>
