@@ -228,7 +228,7 @@ body {
 .marquee {
   display: flex;
   gap: 3rem;
-  animation: marquee 38s linear infinite;
+  animation: marquee 24s linear infinite;
   white-space: nowrap;
 }
 [dir="rtl"] .marquee { animation-direction: reverse; }
@@ -998,6 +998,10 @@ body {
   width: clamp(140px, 18vw, 220px);
   height: auto;
   display: block;
+  visibility: hidden;
+}
+.page-loader__svg.is-drawing {
+  visibility: visible;
 }
 .page-loader__svg path,
 .page-loader__svg polygon,
