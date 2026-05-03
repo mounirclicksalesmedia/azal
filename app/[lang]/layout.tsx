@@ -54,6 +54,23 @@ export async function generateMetadata({
       description: dict.meta.description,
       type: 'website',
       locale: lang === 'ar' ? 'ar_SA' : 'en_US',
+      url: `https://azal.sa/${lang}`,
+      siteName: 'Azal',
+      images: [
+        {
+          url: '/opengraph-image.png',
+          width: 1167,
+          height: 835,
+          alt: 'Rawajeh Holding',
+          type: 'image/png',
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: dict.meta.title,
+      description: dict.meta.description,
+      images: ['/twitter-image.png'],
     },
     other: {
       'theme-color': '#34271D',
