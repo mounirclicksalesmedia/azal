@@ -1,0 +1,80 @@
+{
+  "meta": {
+    "title": "Azal | A Complete Business Experience — by Rawajeh Holding",
+    "description": "Azal is a fully integrated office and commercial development by Rawajeh Holding in Al Malqa, North Riyadh. Modern architecture, flexible workspaces, and refined amenities for ambitious businesses and entrepreneurs."
+  },
+  "nav": {
+    "about": "About",
+    "features": "Features",
+    "location": "Location",
+    "gallery": "Gallery",
+    "contact": "Contact",
+    "language": "العربية",
+    "downloadProfile": "Download Profile"
+  },
+  "hero": {
+    "eyebrow": "By Rawajeh Holding",
+    "titleLine1": "Azal",
+    "titleLine2": "A Complete Business Experience",
+    "subtitle": "A modern destination in Al Malqa where refined architecture meets flexible offices, retail, and integrated services — built for ambitious businesses and entrepreneurs.",
+    "ctaBook": "Book a Visit",
+    "ctaDownload": "Download Project Profile",
+    "scroll": "Discover more"
+  },
+  "about": {
+    "kicker": "About Azal",
+    "title": "Where Business Meets Elegance",
+    "body": "Azal is an integrated office and commercial project by Rawajeh Holding, located in Al Malqa district on Anas bin Malik Road in North Riyadh. The project offers modern architecture, flexible office and retail spaces, and a curated set of services tailored to support businesses and entrepreneurs across every sector.",
+    "stat1": { "value": "67", "label": "Offices" },
+    "stat2": { "value": "500+", "label": "Parking Spaces" },
+    "stat3": { "value": "24/7", "label": "Security" }
+  },
+  "features": {
+    "kicker": "Facilities & Features",
+    "title": "Everything you need, in one place",
+    "subtitle": "Carefully designed spaces and services for an exceptional work and business experience.",
+    "items": [
+      { "title": "67 Offices", "desc": "A variety of layouts and footprints" },
+      { "title": "8 Business Zones", "desc": "Specialized, flexible districts" },
+      { "title": "9 Retail Showrooms", "desc": "Premium street-front presence" },
+      { "title": "Restaurants & Cafés", "desc": "Diverse culinary experiences" },
+      { "title": "Multi-Purpose Halls", "desc": "Events, conferences, and more" },
+      { "title": "Prayer Rooms & Restrooms", "desc": "Highest standards of comfort" },
+      { "title": "Event Spaces", "desc": "Open plazas for gatherings" },
+      { "title": "Green Spaces", "desc": "Sustainable, inspiring environment" },
+      { "title": "500+ Parking Spaces", "desc": "Generous tenant & visitor parking" },
+      { "title": "EV Charging Stations", "desc": "Dedicated charging points" },
+      { "title": "Maintenance & Cleaning", "desc": "Continuous, around-the-clock care" },
+      { "title": "24/7 Security", "desc": "Comprehensive surveillance" }
+    ]
+  },
+  "location": {
+    "kicker": "Location",
+    "title": "At the heart of Al Malqa",
+    "body": "A strategic location on Anas bin Malik Road in North Riyadh, connecting you to the city's most important destinations with ease.",
+    "address": "Al Malqa, Anas bin Malik Road, Riyadh",
+    "openMap": "Open Map"
+  },
+  "cta": {
+    "title": "Start your journey in a space designed for your ambition",
+    "subtitle": "Book a visit or receive the full project profile. Our team is ready to answer your questions.",
+    "fullName": "Full Name",
+    "phone": "Phone Number",
+    "email": "Email Address",
+    "bookingDate": "Booking Day",
+    "submit": "Book your visit now",
+    "thanks": "Thank you. We'll be in touch shortly."
+  },
+  "contact": {
+    "kicker": "Contact Us",
+    "whatsapp": "WhatsApp",
+    "phone": "Phone",
+    "email": "Email"
+  },
+  "footer": {
+    "tagline": "A development by Rawajeh Holding",
+    "rights": "All rights reserved",
+    "privacy": "Privacy Policy",
+    "terms": "Terms"
+  }
+}
