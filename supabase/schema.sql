@@ -161,55 +161,55 @@ alter table public.profiles            enable row level security;
 alter table public.leads               enable row level security;
 alter table public.lead_status_events  enable row level security;
 
--- Profiles: any signed-in user reads their own; admins read all.
-drop policy if exists "profiles self read"  on public.profiles;
-drop policy if exists "profiles admin read" on public.profiles;
+-- SECURITY DEFINER helper — looks up the current user's role without RLS,
+-- so policies on `leads` / `profiles` never recurse.
+create or replace function public.current_user_role()
+returns app_role
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select role from public.profiles where id = auth.uid();
+$$;
+
+revoke all on function public.current_user_role() from public;
+grant execute on function public.current_user_role() to authenticated;
+
+-- Profiles: every signed-in user reads + updates their own row only.
+-- (Admins still see their own row; cross-user reads happen server-side via the secret key.)
+drop policy if exists "profiles self read"   on public.profiles;
+drop policy if exists "profiles admin read"  on public.profiles;
 drop policy if exists "profiles self update" on public.profiles;
 
 create policy "profiles self read" on public.profiles
   for select using (auth.uid() = id);
 
-create policy "profiles admin read" on public.profiles
-  for select using (
-    exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')
-  );
-
 create policy "profiles self update" on public.profiles
   for update using (auth.uid() = id) with check (auth.uid() = id);
 
--- Leads: signed-in admins/agents read & write everything.
--- The website form INSERT is done with the secret key (server route), so no anon insert policy is needed.
+-- Leads: staff read/write via the role helper (no recursion).
 drop policy if exists "leads staff read"   on public.leads;
 drop policy if exists "leads staff write"  on public.leads;
 drop policy if exists "leads staff update" on public.leads;
 drop policy if exists "leads staff delete" on public.leads;
 
 create policy "leads staff read" on public.leads
-  for select using (
-    exists (select 1 from public.profiles p where p.id = auth.uid() and p.role in ('admin','agent','viewer'))
-  );
+  for select using (public.current_user_role() in ('admin','agent','viewer'));
 
 create policy "leads staff write" on public.leads
-  for insert with check (
-    exists (select 1 from public.profiles p where p.id = auth.uid() and p.role in ('admin','agent'))
-  );
+  for insert with check (public.current_user_role() in ('admin','agent'));
 
 create policy "leads staff update" on public.leads
-  for update using (
-    exists (select 1 from public.profiles p where p.id = auth.uid() and p.role in ('admin','agent'))
-  );
+  for update using (public.current_user_role() in ('admin','agent'));
 
 create policy "leads staff delete" on public.leads
-  for delete using (
-    exists (select 1 from public.profiles p where p.id = auth.uid() and p.role = 'admin')
-  );
+  for delete using (public.current_user_role() = 'admin');
 
--- Status events: same staff read; inserts only via trigger (table is read-only to clients).
+-- Status events: read-only to clients; inserted only by trigger.
 drop policy if exists "status events staff read" on public.lead_status_events;
 create policy "status events staff read" on public.lead_status_events
-  for select using (
-    exists (select 1 from public.profiles p where p.id = auth.uid() and p.role in ('admin','agent','viewer'))
-  );
+  for select using (public.current_user_role() in ('admin','agent','viewer'));
 
 -- ─────────────────────────────────────────────────────────
 -- 6. Helpful views for the dashboard
