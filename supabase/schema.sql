@@ -128,7 +128,24 @@ create table if not exists public.lead_status_events (
 
 create index if not exists status_events_lead_idx on public.lead_status_events (lead_id, changed_at desc);
 
--- Auto-record an event whenever leads.status changes (or on insert).
+-- Bump updated_at on every UPDATE.
+create or replace function public.set_updated_at()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.updated_at := now();
+  return new;
+end;
+$$;
+
+drop trigger if exists leads_set_updated_at on public.leads;
+create trigger leads_set_updated_at
+  before update on public.leads
+  for each row execute function public.set_updated_at();
+
+-- Log a status_event AFTER insert/update so the leads row already exists
+-- (avoids the FK violation that BEFORE INSERT caused).
 create or replace function public.log_lead_status_change()
 returns trigger
 language plpgsql
@@ -137,21 +154,18 @@ begin
   if (tg_op = 'INSERT') then
     insert into public.lead_status_events (lead_id, from_status, to_status, changed_by)
     values (new.id, null, new.status, new.assigned_to);
-    return new;
   elsif (tg_op = 'UPDATE') and new.status is distinct from old.status then
     insert into public.lead_status_events (lead_id, from_status, to_status, changed_by)
     values (new.id, old.status, new.status, new.assigned_to);
-    new.updated_at := now();
-    return new;
   end if;
-  new.updated_at := now();
-  return new;
+  return null;
 end;
 $$;
 
 drop trigger if exists on_lead_change on public.leads;
-create trigger on_lead_change
-  before insert or update on public.leads
+drop trigger if exists leads_log_status_change on public.leads;
+create trigger leads_log_status_change
+  after insert or update on public.leads
   for each row execute function public.log_lead_status_change();
 
 -- ─────────────────────────────────────────────────────────
