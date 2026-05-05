@@ -1,4 +1,5 @@
-import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { createSupabaseAdminClient } from '@/lib/supabase/admin';
+import { verifyStaffSession } from '@/lib/dashboard/dal';
 import FunnelChart from './components/FunnelChart';
 import type { Lead, LeadStatus, LeadSource } from '@/lib/supabase/types';
 
@@ -22,7 +23,8 @@ export default async function ReportsPage({
   const fromDate = from || isoDaysAgo(30);
   const toDate = to || new Date().toISOString().slice(0, 10);
 
-  const supabase = await createSupabaseServerClient();
+  await verifyStaffSession();
+  const supabase = createSupabaseAdminClient();
 
   const { data: leads } = await supabase
     .from('leads')

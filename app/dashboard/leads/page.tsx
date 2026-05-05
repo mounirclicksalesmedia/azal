@@ -1,4 +1,4 @@
-import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { verifyStaffSession } from '@/lib/dashboard/dal';
 import LeadsTable from './components/LeadsTable';
 import type { Lead, LeadStatusEvent } from '@/lib/supabase/types';
@@ -7,7 +7,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function LeadsPage() {
   const profile = await verifyStaffSession();
-  const supabase = await createSupabaseServerClient();
+  const supabase = createSupabaseAdminClient();
 
   const [{ data: leads }, { data: events }] = await Promise.all([
     supabase

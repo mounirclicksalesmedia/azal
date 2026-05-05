@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { z } from 'zod';
-import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { verifyStaffSession } from '@/lib/dashboard/dal';
 
 const STATUSES = [
@@ -34,7 +34,7 @@ export async function updateLeadStatus(formData: FormData) {
   });
   if (!parsed.success) return { error: 'Invalid input.' };
 
-  const supabase = await createSupabaseServerClient();
+  const supabase = createSupabaseAdminClient();
   const { error } = await supabase
     .from('leads')
     .update({ status: parsed.data.status })
@@ -64,7 +64,7 @@ export async function updateLeadNotes(formData: FormData) {
   });
   if (!parsed.success) return { error: 'Invalid input.' };
 
-  const supabase = await createSupabaseServerClient();
+  const supabase = createSupabaseAdminClient();
   const { error } = await supabase
     .from('leads')
     .update({ notes: parsed.data.notes ?? null })

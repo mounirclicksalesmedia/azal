@@ -1,5 +1,6 @@
 import Link from 'next/link';
-import { createSupabaseServerClient } from '@/lib/supabase/server';
+import { createSupabaseAdminClient } from '@/lib/supabase/admin';
+import { verifyStaffSession } from '@/lib/dashboard/dal';
 import StatusBadge from './components/StatusBadge';
 import LeadsOverTimeChart from './components/LeadsOverTimeChart';
 import StatusPieChart from './components/StatusPieChart';
@@ -19,7 +20,8 @@ type KpiRow = {
 export const dynamic = 'force-dynamic';
 
 export default async function DashboardPage() {
-  const supabase = await createSupabaseServerClient();
+  await verifyStaffSession();
+  const supabase = createSupabaseAdminClient();
 
   const [{ data: kpiRows }, { data: byDay }, { data: byStatus }, { data: recent }] =
     await Promise.all([
