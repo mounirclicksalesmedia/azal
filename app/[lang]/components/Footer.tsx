@@ -25,6 +25,16 @@ export default function Footer({ dict, lang }: { dict: Dictionary; lang: Locale 
           <p className="mt-4 max-w-md text-sm" style={{ lineHeight: 1.8 }}>
             {dict.footer.tagline}
           </p>
+          <div className="footer-parent-brand mt-7">
+            <span>{dict.hero.eyebrow}</span>
+            <Image
+              src="/rawajehwhite.png"
+              alt="Rawajeh Holding"
+              width={250}
+              height={200}
+              className="footer-parent-mark"
+            />
+          </div>
         </div>
         <div className="lg:col-span-3">
           <div className="text-xs uppercase tracking-[0.25em] text-[var(--cream)]/50">

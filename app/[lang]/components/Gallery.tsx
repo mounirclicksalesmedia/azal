@@ -63,20 +63,15 @@ export default function Gallery({
         <Reveal>
           <div className="flex flex-col items-start gap-5 md:flex-row md:items-end md:justify-between">
             <div>
-              <span className="eyebrow">{dict.nav.gallery}</span>
+              <span className="eyebrow">{dict.gallery.kicker}</span>
               <h2
-                className="font-display mt-5 max-w-3xl"
-                style={{
-                  fontSize: 'clamp(2rem, 4vw, 3.6rem)',
-                  lineHeight: 1.05,
-                  fontWeight: 300,
-                }}
+                className="font-display section-title mt-5 max-w-3xl"
               >
-                {dict.about.title}
+                {dict.gallery.title}
               </h2>
             </div>
-            <p className="max-w-md text-sm text-[var(--ink)]/62" style={{ lineHeight: 1.8 }}>
-              {dict.about.body}
+            <p className="body-copy max-w-md text-sm">
+              {dict.gallery.body}
             </p>
           </div>
         </Reveal>

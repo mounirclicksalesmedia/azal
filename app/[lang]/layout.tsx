@@ -5,9 +5,14 @@ import { getDictionary, getDirection, hasLocale, locales } from './dictionaries'
 import PageLoader from './components/PageLoader';
 import SmoothScroll from './components/SmoothScroll';
 
-const azaharDisplay = localFont({
+const clashDisplay = localFont({
   src: [
-    { path: '../fonts/AzaharAL-VF.woff2', weight: '100 900', style: 'normal' },
+    { path: '../fonts/ClashDisplay-Extralight.ttf', weight: '200', style: 'normal' },
+    { path: '../fonts/ClashDisplay-Light.ttf', weight: '300', style: 'normal' },
+    { path: '../fonts/ClashDisplay-Regular.ttf', weight: '400', style: 'normal' },
+    { path: '../fonts/ClashDisplay-Medium.ttf', weight: '500', style: 'normal' },
+    { path: '../fonts/ClashDisplay-Semibold.ttf', weight: '600', style: 'normal' },
+    { path: '../fonts/ClashDisplay-Bold.ttf', weight: '700', style: 'normal' },
   ],
   variable: '--font-display',
   display: 'swap',
@@ -22,6 +27,14 @@ const azaharText = localFont({
     { path: '../fonts/AzaharText-Black.otf', weight: '900', style: 'normal' },
   ],
   variable: '--font-text',
+  display: 'swap',
+});
+
+const azaharDisplay = localFont({
+  src: [
+    { path: '../fonts/AzaharAL-VF.woff2', weight: '100 900', style: 'normal' },
+  ],
+  variable: '--font-display-ar',
   display: 'swap',
 });
 
@@ -94,7 +107,7 @@ export default async function LocaleLayout({
     <html
       lang={lang}
       dir={dir}
-      className={`${azaharDisplay.variable} ${azaharText.variable} h-full antialiased`}
+      className={`${clashDisplay.variable} ${azaharText.variable} ${azaharDisplay.variable} h-full antialiased`}
     >
       <head>
         <link rel="preconnect" href="https://tiles.openfreemap.org" crossOrigin="" />

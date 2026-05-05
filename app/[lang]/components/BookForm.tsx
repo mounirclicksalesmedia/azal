@@ -8,15 +8,45 @@ type Props = { dict: Dictionary };
 export default function BookForm({ dict }: Props) {
   const [submitted, setSubmitted] = useState(false);
   const [busy, setBusy] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const today = new Date().toISOString().slice(0, 10);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+    setError(null);
     setBusy(true);
-    // Stub: in production, post to /api/book or a CRM endpoint.
-    await new Promise((r) => setTimeout(r, 800));
-    setSubmitted(true);
-    setBusy(false);
+
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const lang =
+      (typeof document !== 'undefined' && document.documentElement.lang) || 'en';
+
+    try {
+      const res = await fetch('/api/leads', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          full_name: String(data.get('full-name') ?? '').trim(),
+          phone: String(data.get('phone') ?? '').trim(),
+          email: String(data.get('email') ?? '').trim(),
+          booking_date: String(data.get('booking-date') ?? '') || null,
+          language: lang === 'ar' ? 'ar' : 'en',
+          source: 'website',
+        }),
+      });
+
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({}));
+        throw new Error(body?.error ?? 'Submission failed');
+      }
+
+      setSubmitted(true);
+      form.reset();
+    } catch (err) {
+      setError(err instanceof Error ? err.message : 'Something went wrong');
+    } finally {
+      setBusy(false);
+    }
   };
 
   return (
@@ -75,7 +105,7 @@ export default function BookForm({ dict }: Props) {
       </div>
       <div className="sm:col-span-2 mt-2 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <p className="min-h-[1.25rem] text-sm text-[var(--ink)]/55">
-          {submitted ? dict.cta.thanks : ''}
+          {error ? error : submitted ? dict.cta.thanks : ''}
         </p>
         <button
           type="submit"

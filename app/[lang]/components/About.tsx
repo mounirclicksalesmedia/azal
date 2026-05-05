@@ -4,51 +4,45 @@ import Reveal from './Reveal';
 
 export default function About({ dict }: { dict: Dictionary }) {
   return (
-    <section id="about" className="section relative">
-      <div className="container-x grid lg:grid-cols-12 gap-12">
-        <Reveal as="div" className="lg:col-span-5">
+    <section id="about" className="section editorial-section about-section relative">
+      <div className="container-x about-layout">
+        <Reveal as="figure" className="about-image-frame" delay={0.08}>
+          <Image
+            src="/azal/hero/hero-3.jpg"
+            alt={dict.about.title}
+            fill
+            sizes="(max-width: 1024px) 100vw, 46vw"
+            className="object-cover"
+          />
+        </Reveal>
+
+        <Reveal as="div" className="about-content">
           <Image
             src="/brand/azal-logo-black.png"
             alt="Azal"
             width={1167}
             height={835}
-            className="mb-8 h-20 w-auto object-contain opacity-90"
+            className="about-logo h-14 w-auto object-contain sm:h-16"
           />
           <span className="eyebrow">{dict.about.kicker}</span>
-          <h2
-            className="font-display mt-5"
-            style={{ fontSize: 'clamp(2.4rem, 4.6vw, 4.4rem)', lineHeight: 1.02, fontWeight: 300 }}
-          >
+          <h2 className="font-display section-title about-title">
             {dict.about.title}
           </h2>
-          <div className="divider-line mt-8" />
-        </Reveal>
+          <div className="about-copy">
+            <p className="body-lead">
+              {dict.about.body}
+            </p>
 
-        <Reveal as="div" className="lg:col-span-7" delay={0.1}>
-          <p
-            className="text-[var(--ink)]/80"
-            style={{ fontSize: 'clamp(1rem, 1.15vw, 1.15rem)', lineHeight: 1.85 }}
-          >
-            {dict.about.body}
-          </p>
-
-          <div className="mt-12 grid grid-cols-3 gap-6 lg:gap-10">
-            {[dict.about.stat1, dict.about.stat2, dict.about.stat3].map((s, i) => (
-              <div key={i} className="border-t pt-5" style={{ borderColor: 'var(--line)' }}>
-                <div
-                  className="font-display"
-                  style={{
-                    fontSize: 'clamp(2.2rem, 3.6vw, 3.4rem)',
-                    fontWeight: 300,
-                    color: 'var(--bronze-700)',
-                    lineHeight: 1,
-                  }}
-                >
-                  {s.value}
+            <div className="about-stats">
+              {[dict.about.stat1, dict.about.stat2, dict.about.stat3].map((s) => (
+                <div key={s.label} className="about-stat">
+                  <div className="font-display about-stat-value">
+                    {s.value}
+                  </div>
+                  <div className="about-stat-label">{s.label}</div>
                 </div>
-                <div className="mt-2 text-sm text-[var(--ink)]/65">{s.label}</div>
-              </div>
-            ))}
+              ))}
+            </div>
           </div>
         </Reveal>
       </div>

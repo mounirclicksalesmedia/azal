@@ -41,7 +41,7 @@ export default function Hero({ dict, dir }: HeroProps) {
   return (
     <section
       className="relative isolate overflow-hidden grain"
-      style={{ height: '100svh', minHeight: '700px' }}
+      style={{ height: '100svh', minHeight: '720px' }}
       aria-label={dict.hero.titleLine1}
     >
       <div className="absolute inset-0">
@@ -66,76 +66,36 @@ export default function Hero({ dict, dir }: HeroProps) {
         })}
       </div>
 
-      <div
-        aria-hidden
-        className="absolute inset-0"
-        style={{
-          background:
-            'radial-gradient(circle at 50% 44%, rgba(11,8,6,0.08) 0%, rgba(11,8,6,0.42) 60%, rgba(11,8,6,0.7) 100%)',
-        }}
-      />
-      <div
-        aria-hidden
-        className="absolute inset-0"
-        style={{
-          background:
-            'linear-gradient(180deg, rgba(11,8,6,0.34) 0%, rgba(11,8,6,0.02) 38%, rgba(11,8,6,0.58) 100%)',
-        }}
-      />
-      <div
-        aria-hidden
-        className="absolute inset-x-0 top-0 h-px"
-        style={{
-          background:
-            'linear-gradient(90deg, transparent, rgba(184,145,94,0.65), transparent)',
-        }}
-      />
+      <div aria-hidden className="hero-grade absolute inset-0" />
+      <div aria-hidden className="hero-texture absolute inset-0" />
+      <div aria-hidden className="hero-hairlines absolute inset-0" />
+      <div aria-hidden className="hero-top-line absolute inset-x-0 top-0 h-px" />
 
       <div className="relative z-10 h-full container-x flex items-center justify-center pt-[88px] pb-24 text-center">
         <div
           ref={textRef}
-          className="mx-auto flex max-w-4xl flex-col items-center text-[var(--cream)]"
+          className="hero-copy mx-auto flex max-w-5xl flex-col items-center text-[var(--cream)]"
         >
           <span data-reveal className="hero-eyebrow">
             {dict.hero.eyebrow}
           </span>
+          <span data-reveal className="font-display hero-brand-text">
+            {dict.hero.titleLine1}
+          </span>
           <h1
             data-reveal
-            className="font-display mt-6 leading-[0.9]"
-            style={{
-              fontSize: 'clamp(4.6rem, 13vw, 11rem)',
-              fontWeight: 300,
-              textShadow: '0 22px 60px rgba(0,0,0,0.42)',
-            }}
-          >
-            {dict.hero.titleLine1}
-          </h1>
-          <h2
-            data-reveal
-            className="font-display mt-5 max-w-3xl"
-            style={{
-              fontSize: 'clamp(1.45rem, 3vw, 2.75rem)',
-              lineHeight: 1.15,
-              fontWeight: 300,
-              color: 'rgba(253,245,228,0.94)',
-              textShadow: '0 12px 36px rgba(0,0,0,0.38)',
-            }}
+            className="font-display hero-title mt-6"
           >
             {dict.hero.titleLine2}
-          </h2>
+          </h1>
           <p
             data-reveal
-            className="mt-7 max-w-2xl"
-            style={{
-              fontSize: 'clamp(1rem, 1.3vw, 1.16rem)',
-              lineHeight: 1.85,
-              color: 'rgba(253,245,228,0.82)',
-            }}
+            className="hero-subtitle mt-7 max-w-2xl"
           >
             {dict.hero.subtitle}
           </p>
 
-          <div data-reveal className="mt-10 flex flex-wrap justify-center gap-3">
+          <div data-reveal className="mt-9 flex flex-wrap justify-center gap-3">
             <a
               href="#book"
               className="btn hero-book-link"

@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import type { Dictionary, Locale } from '../dictionaries';
+import rawajehLogo from '../../rawajehwhite.png';
 
 type NavProps = {
   dict: Dictionary;
@@ -36,10 +37,12 @@ export default function Nav({ dict, lang }: NavProps) {
       className="fixed inset-x-0 top-0 z-50 transition-colors duration-500"
       style={{
         background: scrolled
-          ? 'rgba(11, 8, 6, 0.78)'
-          : 'linear-gradient(180deg, rgba(11,8,6,0.45), rgba(11,8,6,0))',
-        backdropFilter: scrolled ? 'blur(14px) saturate(140%)' : 'none',
-        borderBottom: scrolled ? '1px solid rgba(253,245,228,0.08)' : '1px solid transparent',
+          ? 'rgba(253, 250, 244, 0.92)'
+          : 'linear-gradient(180deg, rgba(11,8,6,0.46), rgba(11,8,6,0))',
+        color: scrolled ? 'var(--bronze-900)' : 'var(--cream)',
+        backdropFilter: scrolled ? 'blur(18px) saturate(140%)' : 'none',
+        borderBottom: scrolled ? '1px solid rgba(52,39,29,0.08)' : '1px solid transparent',
+        boxShadow: scrolled ? '0 18px 44px rgba(52,39,29,0.08)' : 'none',
       }}
     >
       <div className="container-x flex items-center justify-between" style={{ height: 88 }}>
@@ -49,11 +52,11 @@ export default function Nav({ dict, lang }: NavProps) {
           aria-label="Azal — Rawajeh Holding"
         >
           <Image
-            src="/brand/azal-logo-white.png"
-            alt="Azal"
-            width={1167}
-            height={835}
+            src={rawajehLogo}
+            alt="Rawajeh Holding"
             priority
+            placeholder="empty"
+            style={{ filter: scrolled ? 'brightness(0) saturate(100%)' : 'none' }}
             className="h-14 w-auto object-contain sm:h-16"
           />
         </Link>
@@ -63,7 +66,7 @@ export default function Nav({ dict, lang }: NavProps) {
             <a
               key={it.href}
               href={it.href}
-              className="under-link text-[var(--cream)]/85 hover:text-[var(--cream)] transition-colors"
+              className="under-link text-current opacity-80 transition-opacity hover:opacity-100"
             >
               {it.label}
             </a>
@@ -73,8 +76,17 @@ export default function Nav({ dict, lang }: NavProps) {
         <div className="flex items-center gap-2">
           <Link
             href={`/${otherLang}`}
-            className="hidden sm:inline-flex btn btn-ghost"
-            style={{ height: 40, paddingInline: '1.1rem', fontSize: '0.85rem' }}
+            className="hidden sm:inline-flex btn"
+            style={{
+              height: 40,
+              paddingInline: '1.1rem',
+              fontSize: '0.85rem',
+              color: scrolled ? 'var(--bronze-900)' : 'var(--cream)',
+              border: scrolled
+                ? '1px solid rgba(52,39,29,0.18)'
+                : '1px solid rgba(253,245,228,0.38)',
+              background: scrolled ? 'rgba(255,255,255,0.28)' : 'rgba(253,245,228,0.07)',
+            }}
             aria-label="Switch language"
           >
             {dict.nav.language}
@@ -87,17 +99,19 @@ export default function Nav({ dict, lang }: NavProps) {
               height: 40,
               paddingInline: '1.2rem',
               fontSize: '0.85rem',
-              background: 'var(--cream)',
-              color: 'var(--bronze-900)',
-              borderColor: 'var(--cream)',
+              background: scrolled ? 'var(--bronze-900)' : 'var(--cream)',
+              color: scrolled ? 'var(--cream)' : 'var(--bronze-900)',
+              borderColor: scrolled ? 'var(--bronze-900)' : 'var(--cream)',
             }}
           >
             {dict.nav.downloadProfile}
           </a>
           <button
             type="button"
-            className="md:hidden inline-flex items-center justify-center rounded-full border w-10 h-10 text-[var(--cream)]"
-            style={{ borderColor: 'rgba(253,245,228,0.3)' }}
+            className="md:hidden inline-flex items-center justify-center rounded-full border w-10 h-10 text-current"
+            style={{
+              borderColor: scrolled ? 'rgba(52,39,29,0.2)' : 'rgba(253,245,228,0.3)',
+            }}
             onClick={() => setOpen((v) => !v)}
             aria-label="Open menu"
             aria-expanded={open}

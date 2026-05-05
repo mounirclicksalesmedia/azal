@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import maplibregl, { Map as MLMap } from 'maplibre-gl';
 import 'maplibre-gl/dist/maplibre-gl.css';
 
@@ -26,20 +26,28 @@ function ensureRtlPlugin() {
 export default function MapView({ label }: { label: string }) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const mapRef = useRef<MLMap | null>(null);
+  const [mapFailed, setMapFailed] = useState(false);
 
   useEffect(() => {
     const container = containerRef.current;
-    if (!container || mapRef.current) return;
+    if (!container || mapRef.current || mapFailed) return;
 
     ensureRtlPlugin();
 
-    const map = new maplibregl.Map({
-      container,
-      style: 'https://tiles.openfreemap.org/styles/liberty',
-      center: [PROJECT_LNG, PROJECT_LAT],
-      zoom: 14.6,
-      attributionControl: { compact: true },
-    });
+    let map: MLMap;
+    try {
+      map = new maplibregl.Map({
+        container,
+        style: 'https://tiles.openfreemap.org/styles/liberty',
+        center: [PROJECT_LNG, PROJECT_LAT],
+        zoom: 14.6,
+        attributionControl: { compact: true },
+      });
+    } catch (error) {
+      console.warn('[MapView]', error);
+      window.requestAnimationFrame(() => setMapFailed(true));
+      return;
+    }
     map.setPadding({ top: 130, bottom: 30, left: 20, right: 20 });
 
     mapRef.current = map;
@@ -95,7 +103,7 @@ export default function MapView({ label }: { label: string }) {
       map.remove();
       mapRef.current = null;
     };
-  }, []);
+  }, [mapFailed]);
 
   return (
     <div
@@ -108,6 +116,23 @@ export default function MapView({ label }: { label: string }) {
         data-lenis-prevent
         className="azal-map__canvas absolute inset-0 w-full h-full"
       />
+      {mapFailed && (
+        <div className="azal-map-fallback absolute inset-0">
+          <span className="azal-map-fallback__pin" aria-hidden>
+            <svg viewBox="0 0 36 48" width="36" height="48">
+              <path
+                d="M18 47 C 6 30, 1 22, 1 14 A 17 17 0 0 1 35 14 C 35 22, 30 30, 18 47 Z"
+                fill="#34271D"
+                stroke="#B8915E"
+                strokeWidth="1.2"
+              />
+              <circle cx="18" cy="15" r="6.5" fill="#FDF5E4" />
+              <circle cx="18" cy="15" r="3.2" fill="#B8915E" />
+            </svg>
+          </span>
+          <span className="azal-map-fallback__label">{label}</span>
+        </div>
+      )}
       <div className="azal-map-badge">
         <span className="azal-map-badge__dot" />
         <span>{PROJECT_LAT.toFixed(4)}° N · {PROJECT_LNG.toFixed(4)}° E</span>

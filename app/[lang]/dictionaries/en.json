@@ -48,6 +48,11 @@
       { "title": "24/7 Security", "desc": "Comprehensive surveillance" }
     ]
   },
+  "gallery": {
+    "kicker": "Gallery",
+    "title": "Architectural details with a modern spirit",
+    "body": "A closer look at Azal's spaces, facades, and everyday experience, where clear design meets careful execution."
+  },
   "location": {
     "kicker": "Location",
     "title": "At the heart of Al Malqa",

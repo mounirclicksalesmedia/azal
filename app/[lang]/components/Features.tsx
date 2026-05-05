@@ -3,44 +3,36 @@ import type { Dictionary } from '../dictionaries';
 import Reveal from './Reveal';
 
 const ICONS = [
-  'office-transparent',
-  'zones-transparent',
-  'retail-transparent',
-  'cafe-transparent',
-  'hall-transparent',
-  'mosque-transparent',
-  'events-transparent',
-  'green-transparent',
-  'parking-transparent',
-  'ev-transparent',
-  'maintenance-transparent',
-  'security-transparent',
+  'Offices',
+  'Business_zones',
+  'Retail_showrooms',
+  'Restaurants_cafes',
+  'hall',
+  'Prayer_rooms',
+  'events',
+  'Green_spaces',
+  'parking',
+  'EV_charging_stations',
+  'cleaning',
+  'security',
 ];
 
 export default function Features({ dict }: { dict: Dictionary }) {
   return (
     <section
       id="features"
-      className="section relative overflow-hidden"
-      style={{
-        background: 'linear-gradient(180deg, transparent 0%, rgba(206,187,171,0.18) 100%)',
-      }}
+      className="section feature-section relative overflow-hidden"
     >
       <div className="container-x">
         <div className="grid items-center gap-10 lg:grid-cols-12">
           <Reveal as="div" className="lg:col-span-6">
             <span className="eyebrow">{dict.features.kicker}</span>
             <h2
-              className="font-display mt-5"
-              style={{
-                fontSize: 'clamp(2.2rem, 4.4vw, 4rem)',
-                lineHeight: 1.02,
-                fontWeight: 300,
-              }}
+              className="font-display section-title mt-5"
             >
               {dict.features.title}
             </h2>
-            <p className="mt-6 max-w-xl text-[var(--ink)]/70" style={{ lineHeight: 1.85 }}>
+            <p className="body-copy mt-6 max-w-xl">
               {dict.features.subtitle}
             </p>
           </Reveal>
@@ -58,7 +50,7 @@ export default function Features({ dict }: { dict: Dictionary }) {
           </Reveal>
         </div>
 
-        <div className="mt-14 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
+        <div className="mt-16 grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-4">
           {dict.features.items.map((item, i) => {
             const iconName = ICONS[i] ?? ICONS[0];
             return (
@@ -67,7 +59,7 @@ export default function Features({ dict }: { dict: Dictionary }) {
                   <span className="num">{String(i + 1).padStart(2, '0')}</span>
                   <span className="feature-icon-shell" aria-hidden>
                     <Image
-                      src={`/features/icons/${iconName}.webp`}
+                      src={`/icons/${iconName}.png`}
                       alt=""
                       width={256}
                       height={256}
@@ -75,8 +67,8 @@ export default function Features({ dict }: { dict: Dictionary }) {
                     />
                   </span>
                 </div>
-                <h3 className="mt-6 text-lg font-medium">{item.title}</h3>
-                <p className="mt-2 text-sm text-[var(--ink)]/65">{item.desc}</p>
+                <h3 className="feature-card-title">{item.title}</h3>
+                <p className="feature-card-copy">{item.desc}</p>
               </Reveal>
             );
           })}

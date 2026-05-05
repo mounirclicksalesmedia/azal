@@ -11,12 +11,11 @@ export default function Location({ dict }: { dict: Dictionary }) {
         <Reveal as="div" className="lg:col-span-5">
           <span className="eyebrow">{dict.location.kicker}</span>
           <h2
-            className="font-display mt-5"
-            style={{ fontSize: 'clamp(2.2rem, 4.4vw, 3.8rem)', lineHeight: 1.04, fontWeight: 300 }}
+            className="font-display section-title mt-5"
           >
             {dict.location.title}
           </h2>
-          <p className="mt-6 text-[var(--ink)]/75" style={{ lineHeight: 1.85 }}>
+          <p className="body-copy mt-6">
             {dict.location.body}
           </p>
           <div className="mt-8 flex items-center gap-3">
