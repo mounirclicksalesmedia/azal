@@ -58,22 +58,20 @@ export default async function ReportsPage({
 
         <form
           method="get"
-          style={{ display: 'flex', gap: '.5rem', alignItems: 'center' }}
+          className="dash-date-form"
         >
           <input
             type="date"
             name="from"
             defaultValue={fromDate}
             className="dash-input"
-            style={{ minWidth: 0, height: 38 }}
           />
-          <span style={{ color: 'rgba(27,19,13,0.45)' }}>→</span>
+          <span className="dash-range-separator">→</span>
           <input
             type="date"
             name="to"
             defaultValue={toDate}
             className="dash-input"
-            style={{ minWidth: 0, height: 38 }}
           />
           <button type="submit" className="dash-btn dash-btn-primary">
             Apply
@@ -123,7 +121,7 @@ export default async function ReportsPage({
             <div className="dash-section-meta">Where leads come from</div>
           </div>
         </div>
-        <table className="dash-table" style={{ marginTop: '.5rem' }}>
+        <table className="dash-table dash-table-spaced">
           <thead>
             <tr>
               <th>Source</th>
@@ -141,7 +139,7 @@ export default async function ReportsPage({
             ) : (
               sources.map((s) => (
                 <tr key={s.key}>
-                  <td style={{ textTransform: 'capitalize' }}>{s.key}</td>
+                  <td className="dash-capitalize">{s.key}</td>
                   <td className="dash-mono">{s.count}</td>
                   <td className="dash-mono">
                     {total > 0 ? Math.round((s.count / total) * 100) : 0}%

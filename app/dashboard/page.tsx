@@ -58,8 +58,7 @@ export default async function DashboardPage() {
           <div className="dash-eyebrow">Overview</div>
           <h1 className="dash-title">Pipeline at a glance</h1>
           <p className="dash-subtitle">
-            Live data from Supabase — leads captured from azal.sa, booking outcomes,
-            and conversion across the funnel.
+            Leads captured from Azal, booking outcomes, and conversion across the funnel.
           </p>
         </div>
         <Link href="/dashboard/leads" className="dash-btn dash-btn-primary">

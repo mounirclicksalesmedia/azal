@@ -128,11 +128,11 @@ export default function LeadsTable({ leads, events, canEdit }: Props) {
                   <td className="dash-mono" dir="ltr">
                     {l.phone}
                   </td>
-                  <td dir="ltr" style={{ fontWeight: 300 }}>
+                  <td dir="ltr" className="dash-muted-cell">
                     {l.email}
                   </td>
                   <td className="dash-mono">{l.booking_date ?? '—'}</td>
-                  <td style={{ textTransform: 'capitalize' }}>{l.source}</td>
+                  <td className="dash-capitalize">{l.source}</td>
                   <td>
                     <StatusBadge status={l.status} />
                   </td>
