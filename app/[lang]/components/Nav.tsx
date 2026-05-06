@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useEffect, useState } from 'react';
 import type { Dictionary, Locale } from '../dictionaries';
-import rawajehLogo from '../../rawajehwhite.png';
 
 type NavProps = {
   dict: Dictionary;
@@ -52,11 +51,11 @@ export default function Nav({ dict, lang }: NavProps) {
           aria-label="Azal — Rawajeh Holding"
         >
           <Image
-            src={rawajehLogo}
+            src={scrolled ? '/brand/logo/black_logo.svg' : '/brand/logo/white_logo.svg'}
             alt="Rawajeh Holding"
+            width={209}
+            height={158}
             priority
-            placeholder="empty"
-            style={{ filter: scrolled ? 'brightness(0) saturate(100%)' : 'none' }}
             className="h-14 w-auto object-contain sm:h-16"
           />
         </Link>

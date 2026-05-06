@@ -28,10 +28,10 @@ export default function Footer({ dict, lang }: { dict: Dictionary; lang: Locale 
           <div className="footer-parent-brand mt-7">
             <span>{dict.hero.eyebrow}</span>
             <Image
-              src="/rawajehwhite.png"
+              src="/brand/logo/white_logo.svg"
               alt="Rawajeh Holding"
-              width={250}
-              height={200}
+              width={209}
+              height={158}
               className="footer-parent-mark"
             />
           </div>
