@@ -4,14 +4,15 @@ import { createServerClient } from '@supabase/ssr';
 
 const locales = ['ar', 'en'];
 const defaultLocale = 'ar';
+const projects = ['azal', 'arsh'];
 
-// Routes that opt out of the locale rewrite (dashboard / auth / api).
+// Routes that opt out of the marketing-site locale rewrite.
 const STAFF_PREFIXES = ['/dashboard', '/login', '/logout', '/api', '/auth'];
 
 export async function proxy(request: NextRequest) {
   const { pathname } = request.nextUrl;
 
-  // 1) Refresh the Supabase session for any dashboard route so server pages see a fresh JWT.
+  // 1) Refresh the Supabase session for any dashboard/login route.
   if (pathname.startsWith('/dashboard') || pathname.startsWith('/login')) {
     return refreshAndGate(request);
   }
@@ -21,15 +22,31 @@ export async function proxy(request: NextRequest) {
     return NextResponse.next();
   }
 
-  // 3) Marketing site: enforce locale prefix.
-  const hasLocale = locales.some(
-    (locale) => pathname === `/${locale}` || pathname.startsWith(`/${locale}/`),
-  );
-  if (hasLocale) return;
+  // 3) Root → default project + default locale.
+  if (pathname === '/') {
+    const url = request.nextUrl.clone();
+    url.pathname = `/azal/${defaultLocale}`;
+    return NextResponse.redirect(url);
+  }
 
-  const url = request.nextUrl.clone();
-  url.pathname = `/${defaultLocale}${pathname === '/' ? '' : pathname}`;
-  return NextResponse.redirect(url);
+  // 4) /<project> or /<project>/ → /<project>/<defaultLocale>.
+  //    /<project>/<locale> passes through.
+  for (const project of projects) {
+    if (pathname === `/${project}` || pathname === `/${project}/`) {
+      const url = request.nextUrl.clone();
+      url.pathname = `/${project}/${defaultLocale}`;
+      return NextResponse.redirect(url);
+    }
+    const hasLocale = locales.some(
+      (locale) =>
+        pathname === `/${project}/${locale}` ||
+        pathname.startsWith(`/${project}/${locale}/`),
+    );
+    if (hasLocale) return;
+  }
+
+  // 5) Anything else: let Next.js handle (likely 404).
+  return NextResponse.next();
 }
 
 async function refreshAndGate(request: NextRequest) {

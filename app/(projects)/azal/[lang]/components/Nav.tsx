@@ -46,7 +46,7 @@ export default function Nav({ dict, lang }: NavProps) {
     >
       <div className="container-x flex items-center justify-between" style={{ height: 88 }}>
         <Link
-          href={`/${lang}`}
+          href={`/azal/${lang}`}
           className="flex items-center"
           aria-label="Azal — Rawajeh Holding"
         >
@@ -74,7 +74,7 @@ export default function Nav({ dict, lang }: NavProps) {
 
         <div className="flex items-center gap-2">
           <Link
-            href={`/${otherLang}`}
+            href={`/azal/${otherLang}`}
             className="hidden sm:inline-flex btn"
             style={{
               height: 40,
@@ -144,7 +144,7 @@ export default function Nav({ dict, lang }: NavProps) {
               </a>
             ))}
             <div className="flex gap-3 pt-2">
-              <Link href={`/${otherLang}`} className="btn btn-ghost" style={{ height: 44 }}>
+              <Link href={`/azal/${otherLang}`} className="btn btn-ghost" style={{ height: 44 }}>
                 {dict.nav.language}
               </Link>
               <a

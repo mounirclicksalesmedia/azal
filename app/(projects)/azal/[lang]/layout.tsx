@@ -56,10 +56,10 @@ export async function generateMetadata({
     description: dict.meta.description,
     metadataBase: new URL('https://azal.sa'),
     alternates: {
-      canonical: `/${lang}`,
+      canonical: `/azal/${lang}`,
       languages: {
-        ar: '/ar',
-        en: '/en',
+        ar: '/azal/ar',
+        en: '/azal/en',
       },
     },
     openGraph: {
@@ -67,7 +67,7 @@ export async function generateMetadata({
       description: dict.meta.description,
       type: 'website',
       locale: lang === 'ar' ? 'ar_SA' : 'en_US',
-      url: `https://azal.sa/${lang}`,
+      url: `https://azal.sa/azal/${lang}`,
       siteName: 'Azal',
       images: [
         {

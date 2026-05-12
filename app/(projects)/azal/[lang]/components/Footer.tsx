@@ -60,7 +60,7 @@ export default function Footer({ dict, lang }: { dict: Dictionary; lang: Locale 
           </ul>
         </div>
         <div className="lg:col-span-4 lg:text-end">
-          <Link href={`/${otherLang}`} className="under-link text-sm text-[var(--cream)]/85">
+          <Link href={`/azal/${otherLang}`} className="under-link text-sm text-[var(--cream)]/85">
             {dict.nav.language}
           </Link>
           <div className="mt-6 flex gap-5 lg:justify-end text-sm">
