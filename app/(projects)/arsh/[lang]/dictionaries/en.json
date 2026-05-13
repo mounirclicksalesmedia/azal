@@ -1,0 +1,161 @@
+{
+  "meta": {
+    "title": "Asha — A complete business oasis",
+    "description": "Asha — an integrated office development by Rawajeh Group in Hittin, northern Riyadh."
+  },
+  "brand": {
+    "mark": "A",
+    "name": "Asha",
+    "subname": "ASHA · RIYADH"
+  },
+  "nav": {
+    "items": [
+      { "num": "01", "label": "About", "href": "#about" },
+      { "num": "02", "label": "Facilities", "href": "#features" },
+      { "num": "03", "label": "Location", "href": "#location" },
+      { "num": "04", "label": "Book a visit", "href": "#booking" }
+    ],
+    "cta": "Contact us"
+  },
+  "hero": {
+    "eyebrow": "RAWAJEH · HITTIN, RIYADH",
+    "row1": "Asha",
+    "row2": "A complete",
+    "row3": "business oasis.",
+    "watermark": "ASHA",
+    "meta": [
+      { "k": "DEVELOPER", "v": "Rawajeh Group" },
+      { "k": "DISTRICT", "v": "Hittin — northern Riyadh" },
+      { "k": "TYPOLOGY", "v": "Office villas & suites" }
+    ],
+    "cta": "Book a visit",
+    "photoLabel": "[ photo · architectural render ]",
+    "chips": ["Quality", "Privacy", "Operational efficiency"],
+    "stats": [
+      { "n": "+20", "unit": "", "lab": "Premium office villas" },
+      { "n": "32K", "unit": "m²", "lab": "Diverse leasable area" }
+    ]
+  },
+  "about": {
+    "eyebrow": "01 — About Asha",
+    "titleLine1": "A business oasis",
+    "titleGold": "in the heart of",
+    "titleLine2": "Riyadh",
+    "lead": {
+      "boldA": "Asha",
+      "textA": " is a complete office development by ",
+      "boldB": "Rawajeh Group",
+      "textB": ", located on Imam Saud bin Faisal Road in the Hittin district of northern Riyadh.",
+      "dim": "It combines premium office villas with flexible workspaces in a contemporary architectural language — built for companies and professionals who value quality, privacy and operational efficiency."
+    },
+    "ctaSecondary": "Request a virtual tour",
+    "cardTitleA": "Contemporary architecture that respects",
+    "cardTitleGold": "the rhythm of work",
+    "cardTitleB": ".",
+    "cardBody": "Modern architecture shaped around open air and calm circulation, organising the flow of teams and visitors seamlessly — from arrival, to parking, to the office villa.",
+    "tags": ["Contemporary", "Green spaces", "Natural light", "Privacy", "Efficiency"],
+    "photoLabel": "[ photo · masterplan view ]",
+    "photoChips": ["Quality", "Privacy"]
+  },
+  "bigQuote": {
+    "parts": [
+      { "text": "Design that respects", "tone": "normal" },
+      { "text": " the rhythm of work,", "tone": "dim" },
+      { "text": " a location that saves", "tone": "normal" },
+      { "text": " time,", "tone": "dim" },
+      { "text": " and an environment that lets", "tone": "normal" },
+      { "text": " business grow.", "tone": "gold" }
+    ],
+    "cta": "Explore facilities"
+  },
+  "features": {
+    "eyebrow": "02 — Facilities & amenities",
+    "titleLine1": "Everything you need",
+    "titleGold": "for a company",
+    "titleLine2": "that grows",
+    "leadBoldA": "+20 office villas",
+    "leadBoldB": "+60 suites",
+    "leadBoldC": "32,000 m²",
+    "leadDim": "Surrounded by green courtyards, restaurants and cafés, lounge zones, and abundant parking beyond a thousand spaces.",
+    "items": [
+      { "idx": "01 / OFFICE VILLAS", "size": "lg", "big": "+20", "unit": "villas", "lab": "Standalone office villas built for companies that value privacy and a distinct corporate identity.", "icon": "villa" },
+      { "idx": "02 / OFFICES", "size": "sm", "big": "+60", "unit": "", "lab": "Office suites with flexible footprints to serve different sectors.", "icon": "office" },
+      { "idx": "03 / LEASABLE AREA", "size": "sm", "big": "32K", "unit": "m²", "lab": "Total leasable area, efficiently distributed to maximise the value of every square metre.", "icon": "area" },
+      { "idx": "04 / ARCHITECTURE", "size": "lg text", "bigPre": "Contemporary", "bigGold": "architecture", "lab": "Quiet facades, clean lines, and a visual rhythm in tune with daily work." },
+      { "idx": "05 / GREEN", "size": "sm", "big": "∞", "unit": "", "lab": "Green spaces and walking paths give employees a visual and mental breath of air.", "icon": "green" },
+      { "idx": "06 / F&B", "size": "sm", "big": "F&B", "unit": "", "lab": "Multiple styles of restaurants and cafés serving meetings and breaks.", "icon": "fb" },
+      { "idx": "07 / LOUNGES", "size": "sm", "big": "★", "unit": "", "lab": "Lounges and quiet rooms for quick meetings and flexible work.", "icon": "lounge" },
+      { "idx": "08 / PARKING", "size": "lg", "big": "+1000", "unit": "spaces", "lab": "+1,000 car parks make sure staff and guests arrive effortlessly — in a naturally busy area.", "icon": "parking" },
+      { "idx": "09 / LOCATION", "size": "xl text", "bigPre": "Strategic location in northern Riyadh —", "bigGold": "Hittin district", "lab": "On Imam Saud bin Faisal Road, with twin fast access points to Riyadh's main arteries and the diplomatic & commercial zones." },
+      { "idx": "10 / ACCESS", "size": "sm", "big": "24/7", "unit": "", "lab": "Secure access around the clock with managed entry points and site-wide security.", "icon": "access" }
+    ]
+  },
+  "location": {
+    "eyebrow": "03 — Location & hours",
+    "titleGold": "Hittin,",
+    "titleLine1": "Riyadh —",
+    "titleLine2": "where",
+    "titleEmph": "comfort",
+    "titleLine3": "meets access",
+    "lead": "Asha is on Imam Saud bin Faisal Road in the Hittin district of northern Riyadh,",
+    "leadDim": "with a deliberate proximity to the city's main arteries and premium residential areas.",
+    "rows": [
+      { "k": "DISTRICT", "label": "Hittin, north Riyadh", "sub": "Imam Saud bin Faisal Road — twin access.", "v": "12 min", "vSmall": "from KAFD" },
+      { "k": "AIRPORT", "label": "King Khalid International Airport", "sub": "Direct access for executives and guests.", "v": "22 min" },
+      { "k": "DIPLOMATIC Q.", "label": "Diplomatic Quarter", "sub": "Close to embassies and major institutions.", "v": "15 min" }
+    ],
+    "hours": {
+      "ttl": "Working hours",
+      "tt": "Sun — Thu · 8:00 AM — 6:00 PM",
+      "tag": "OPEN NOW"
+    },
+    "mapsCta": "Open in Google Maps",
+    "mapBadge": "ASHA · HITTIN · RIYADH",
+    "mapPin": { "ttl": "Asha — Business Oasis", "sub": "Imam Saud bin Faisal Road · Hittin" }
+  },
+  "booking": {
+    "eyebrow": "04 — Book your visit",
+    "titleLine1": "Begin your journey",
+    "titleLine2": "at a destination",
+    "titleGold": "that keeps pace with you",
+    "lead": "Fill in the form and we'll get back to you within the next business day to schedule an on-site or virtual tour and walk you through the available spaces.",
+    "chips": ["Reply within 24h", "On-site tour", "Tailored space brief"],
+    "formTitle": "Book your visit now",
+    "formSub": "Our project team will reach out to coordinate.",
+    "fields": {
+      "fullName": { "label": "FULL NAME", "placeholder": "Full name" },
+      "phone": { "label": "PHONE", "placeholder": "+966 ___ ___ ____" },
+      "email": { "label": "EMAIL", "placeholder": "name@company.sa" },
+      "interest": { "label": "INTEREST", "placeholder": "Office villa · suite · tour" }
+    },
+    "fine": "By submitting you agree to our privacy policy and to us keeping your details for follow-up.",
+    "submit": "Book your visit now",
+    "thanks": "Thank you — we'll be in touch shortly."
+  },
+  "contact": {
+    "eyebrow": "05 — Contact us",
+    "titleLine1": "We're here",
+    "titleLine2": "to answer",
+    "titleGold": "your enquiries",
+    "lead": "Whether you're looking for an office villa for your company or a flexible suite for your team,",
+    "leadDim": "the Asha team is available to answer your questions and arrange the right visit for you.",
+    "cards": [
+      { "k": "WHATSAPP", "v": "+966 50 000 0000", "arrow": "Chat on WhatsApp", "href": "https://wa.me/966500000000" },
+      { "k": "PHONE", "v": "+966 11 000 0000", "arrow": "Call us", "href": "tel:+966110000000" },
+      { "k": "EMAIL", "v": "hello@asha.sa", "arrow": "Send an email", "href": "mailto:hello@asha.sa" },
+      { "k": "LOCATION", "v": "Hittin, Riyadh", "arrow": "View on map", "href": "#location" }
+    ],
+    "quote": {
+      "label": "— RAWAJEH GROUP",
+      "textA": "We design business environments",
+      "textGold": "worth belonging to",
+      "textB": " — where quality, privacy and operational efficiency move to a single rhythm.",
+      "by": "Rawajeh Group · Developer",
+      "seal": "R"
+    }
+  },
+  "footer": {
+    "copy": "© 2026 Asha — a Rawajeh Group development. All rights reserved.",
+    "mono": "ASHA · A BUSINESS OASIS IN HITTIN, RIYADH"
+  }
+}
