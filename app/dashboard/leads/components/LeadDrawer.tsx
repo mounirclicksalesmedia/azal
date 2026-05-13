@@ -102,6 +102,50 @@ export default function LeadDrawer({ lead, events, onClose, canEdit }: Props) {
                 {new Date(lead.created_at).toLocaleString()}
               </dd>
             </div>
+            {lead.utm_source ? (
+              <>
+                <div className="dash-drawer-row">
+                  <dt>UTM source</dt>
+                  <dd className="dash-mono">{lead.utm_source}</dd>
+                </div>
+                <div className="dash-drawer-row">
+                  <dt>UTM medium</dt>
+                  <dd className="dash-mono">{lead.utm_medium ?? '—'}</dd>
+                </div>
+                <div className="dash-drawer-row">
+                  <dt>UTM campaign</dt>
+                  <dd className="dash-mono">{lead.utm_campaign ?? '—'}</dd>
+                </div>
+                {lead.utm_term ? (
+                  <div className="dash-drawer-row">
+                    <dt>UTM term</dt>
+                    <dd className="dash-mono">{lead.utm_term}</dd>
+                  </div>
+                ) : null}
+                {lead.utm_content ? (
+                  <div className="dash-drawer-row">
+                    <dt>UTM content</dt>
+                    <dd className="dash-mono">{lead.utm_content}</dd>
+                  </div>
+                ) : null}
+              </>
+            ) : null}
+            {lead.landing_page ? (
+              <div className="dash-drawer-row">
+                <dt>Landing page</dt>
+                <dd className="dash-mono" style={{ wordBreak: 'break-all' }}>
+                  {lead.landing_page}
+                </dd>
+              </div>
+            ) : null}
+            {lead.referrer ? (
+              <div className="dash-drawer-row">
+                <dt>Referrer</dt>
+                <dd className="dash-mono" style={{ wordBreak: 'break-all' }}>
+                  {lead.referrer}
+                </dd>
+              </div>
+            ) : null}
           </dl>
 
           {canEdit ? (

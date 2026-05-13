@@ -7,6 +7,7 @@ import {
   type Lead,
   type LeadStatus,
   type LeadStatusEvent,
+  type Project,
 } from '@/lib/supabase/types';
 import StatusBadge from '../../components/StatusBadge';
 import LeadDrawer from './LeadDrawer';
@@ -15,35 +16,59 @@ type Props = {
   leads: Lead[];
   events: LeadStatusEvent[];
   canEdit: boolean;
+  project: Project;
 };
 
-export default function LeadsTable({ leads, events, canEdit }: Props) {
+export default function LeadsTable({ leads, events, canEdit, project }: Props) {
   const [search, setSearch] = useState('');
   const [statusFilter, setStatusFilter] = useState<'all' | LeadStatus>('all');
+  const [sourceFilter, setSourceFilter] = useState<'all' | string>('all');
   const [activeId, setActiveId] = useState<string | null>(null);
+
+  const utmSources = useMemo(() => {
+    const set = new Set<string>();
+    for (const l of leads) if (l.utm_source) set.add(l.utm_source);
+    return Array.from(set).sort();
+  }, [leads]);
 
   const filtered = useMemo(() => {
     const q = search.trim().toLowerCase();
     return leads.filter((l) => {
       if (statusFilter !== 'all' && l.status !== statusFilter) return false;
+      if (sourceFilter !== 'all') {
+        if (sourceFilter === '__none__') {
+          if (l.utm_source) return false;
+        } else if (l.utm_source !== sourceFilter) {
+          return false;
+        }
+      }
       if (!q) return true;
       return (
         l.full_name.toLowerCase().includes(q) ||
         l.email.toLowerCase().includes(q) ||
-        l.phone.toLowerCase().includes(q)
+        l.phone.toLowerCase().includes(q) ||
+        (l.utm_campaign?.toLowerCase().includes(q) ?? false)
       );
     });
-  }, [leads, search, statusFilter]);
+  }, [leads, search, statusFilter, sourceFilter]);
 
   const exportCsv = () => {
     const header = [
       'created_at',
+      'project',
       'full_name',
       'phone',
       'email',
       'booking_date',
       'status',
       'source',
+      'utm_source',
+      'utm_medium',
+      'utm_campaign',
+      'utm_term',
+      'utm_content',
+      'landing_page',
+      'referrer',
       'language',
       'notes',
     ];
@@ -60,7 +85,7 @@ export default function LeadsTable({ leads, events, canEdit }: Props) {
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `azal-leads-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.download = `${project}-leads-${new Date().toISOString().slice(0, 10)}.csv`;
     a.click();
     URL.revokeObjectURL(url);
   };
@@ -76,7 +101,7 @@ export default function LeadsTable({ leads, events, canEdit }: Props) {
         <div className="dash-table-toolbar">
           <input
             className="dash-input"
-            placeholder="Search by name, phone, or email…"
+            placeholder="Search by name, phone, email, or campaign…"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
           />
@@ -89,6 +114,19 @@ export default function LeadsTable({ leads, events, canEdit }: Props) {
             {STATUS_ORDER.map((s) => (
               <option key={s} value={s}>
                 {STATUS_META[s].label}
+              </option>
+            ))}
+          </select>
+          <select
+            className="dash-select"
+            value={sourceFilter}
+            onChange={(e) => setSourceFilter(e.target.value)}
+          >
+            <option value="all">All sources</option>
+            <option value="__none__">Direct / no UTM</option>
+            {utmSources.map((s) => (
+              <option key={s} value={s}>
+                {s}
               </option>
             ))}
           </select>
@@ -111,6 +149,7 @@ export default function LeadsTable({ leads, events, canEdit }: Props) {
                 <th>Email</th>
                 <th>Booking</th>
                 <th>Source</th>
+                <th>Campaign</th>
                 <th>Status</th>
               </tr>
             </thead>
@@ -132,7 +171,21 @@ export default function LeadsTable({ leads, events, canEdit }: Props) {
                     {l.email}
                   </td>
                   <td className="dash-mono">{l.booking_date ?? '—'}</td>
-                  <td className="dash-capitalize">{l.source}</td>
+                  <td className="dash-capitalize">
+                    {l.utm_source ? (
+                      <>
+                        {l.utm_source}
+                        {l.utm_medium ? (
+                          <span style={{ opacity: 0.55 }}> · {l.utm_medium}</span>
+                        ) : null}
+                      </>
+                    ) : (
+                      l.source
+                    )}
+                  </td>
+                  <td className="dash-mono" style={{ fontSize: '0.78rem' }}>
+                    {l.utm_campaign ?? '—'}
+                  </td>
                   <td>
                     <StatusBadge status={l.status} />
                   </td>

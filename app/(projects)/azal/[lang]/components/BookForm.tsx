@@ -1,15 +1,68 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import type { Dictionary } from '../dictionaries';
 
 type Props = { dict: Dictionary };
+
+type Attribution = {
+  utm_source: string | null;
+  utm_medium: string | null;
+  utm_campaign: string | null;
+  utm_term: string | null;
+  utm_content: string | null;
+  landing_page: string | null;
+  referrer: string | null;
+};
+
+const STORAGE_KEY = 'azal:attribution';
+
+function readAttribution(): Attribution {
+  const empty: Attribution = {
+    utm_source: null,
+    utm_medium: null,
+    utm_campaign: null,
+    utm_term: null,
+    utm_content: null,
+    landing_page: null,
+    referrer: null,
+  };
+  if (typeof window === 'undefined') return empty;
+
+  const url = new URL(window.location.href);
+  const fromUrl: Attribution = {
+    utm_source: url.searchParams.get('utm_source'),
+    utm_medium: url.searchParams.get('utm_medium'),
+    utm_campaign: url.searchParams.get('utm_campaign'),
+    utm_term: url.searchParams.get('utm_term'),
+    utm_content: url.searchParams.get('utm_content'),
+    landing_page: window.location.pathname + window.location.search,
+    referrer: document.referrer || null,
+  };
+
+  // First-touch wins: persist the first attribution we see for this session.
+  try {
+    const cached = sessionStorage.getItem(STORAGE_KEY);
+    if (cached) return JSON.parse(cached) as Attribution;
+    if (fromUrl.utm_source || fromUrl.referrer || fromUrl.landing_page) {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(fromUrl));
+    }
+  } catch {
+    /* storage may be disabled */
+  }
+  return fromUrl;
+}
 
 export default function BookForm({ dict }: Props) {
   const [submitted, setSubmitted] = useState(false);
   const [busy, setBusy] = useState(false);
   const [error, setError] = useState<string | null>(null);
+  const attribution = useRef<Attribution | null>(null);
   const today = new Date().toISOString().slice(0, 10);
+
+  useEffect(() => {
+    attribution.current = readAttribution();
+  }, []);
 
   const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -21,17 +74,27 @@ export default function BookForm({ dict }: Props) {
     const lang =
       (typeof document !== 'undefined' && document.documentElement.lang) || 'en';
 
+    const attr = attribution.current ?? readAttribution();
+
     try {
       const res = await fetch('/api/leads', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
+          project: 'azal',
           full_name: String(data.get('full-name') ?? '').trim(),
           phone: String(data.get('phone') ?? '').trim(),
           email: String(data.get('email') ?? '').trim(),
           booking_date: String(data.get('booking-date') ?? '') || null,
           language: lang === 'ar' ? 'ar' : 'en',
           source: 'website',
+          utm_source: attr.utm_source,
+          utm_medium: attr.utm_medium,
+          utm_campaign: attr.utm_campaign,
+          utm_term: attr.utm_term,
+          utm_content: attr.utm_content,
+          landing_page: attr.landing_page,
+          referrer: attr.referrer,
         }),
       });
 

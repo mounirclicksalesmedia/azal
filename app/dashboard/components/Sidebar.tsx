@@ -1,8 +1,13 @@
 'use client';
 
 import Link from 'next/link';
-import { usePathname } from 'next/navigation';
-import type { Profile } from '@/lib/supabase/types';
+import { usePathname, useRouter, useSearchParams } from 'next/navigation';
+import {
+  PROJECTS,
+  isProject,
+  type Profile,
+  type Project,
+} from '@/lib/supabase/types';
 
 const items = [
   {
@@ -32,20 +37,61 @@ const items = [
       </svg>
     ),
   },
+  {
+    href: '/dashboard/utm',
+    label: 'UTM links',
+    icon: (
+      <svg viewBox="0 0 24 24" fill="none" className="dash-nav-icon" aria-hidden>
+        <path
+          d="M10 14a4 4 0 0 0 5.66 0l3-3a4 4 0 0 0-5.66-5.66l-1 1M14 10a4 4 0 0 0-5.66 0l-3 3a4 4 0 0 0 5.66 5.66l1-1"
+          stroke="currentColor"
+          strokeWidth="1.4"
+          strokeLinecap="round"
+        />
+      </svg>
+    ),
+  },
 ];
 
 export default function Sidebar({ profile }: { profile: Profile }) {
   const path = usePathname();
+  const router = useRouter();
+  const sp = useSearchParams();
+  const currentProject: Project =
+    isProject(sp.get('project') ?? '') ? (sp.get('project') as Project) : 'azal';
+
+  const switchProject = (project: Project) => {
+    const params = new URLSearchParams(sp.toString());
+    params.set('project', project);
+    router.replace(`${path}?${params.toString()}`);
+  };
+
+  const withProject = (href: string) => `${href}?project=${currentProject}`;
 
   return (
     <aside className="dash-sidebar">
       <div className="dash-brand">
-        <div className="dash-brand-mark">A</div>
+        <div className="dash-brand-mark">R</div>
         <div>
-          <div className="dash-brand-name">Azal</div>
-          <div className="dash-brand-sub">Rawajeh</div>
+          <div className="dash-brand-name">Rawajeh</div>
+          <div className="dash-brand-sub">Portal</div>
         </div>
       </div>
+
+      <label className="dash-project-switch">
+        <span className="dash-project-label">Project</span>
+        <select
+          value={currentProject}
+          onChange={(e) => switchProject(e.target.value as Project)}
+          className="dash-select"
+        >
+          {PROJECTS.map((p) => (
+            <option key={p.slug} value={p.slug}>
+              {p.name}
+            </option>
+          ))}
+        </select>
+      </label>
 
       <nav className="dash-nav" aria-label="Dashboard">
         {items.map((it) => {
@@ -54,7 +100,7 @@ export default function Sidebar({ profile }: { profile: Profile }) {
           return (
             <Link
               key={it.href}
-              href={it.href}
+              href={withProject(it.href)}
               className="dash-nav-item"
               data-active={active}
             >

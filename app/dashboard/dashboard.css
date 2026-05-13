@@ -629,3 +629,94 @@
   padding: 0.65rem 0.85rem;
   border-radius: 8px;
 }
+
+/* ── Sidebar project switcher ───────────────────────────── */
+.dash-project-switch {
+  display: grid;
+  gap: 0.35rem;
+  padding: 0.7rem 0.5rem 0.85rem;
+  border-block-end: 1px solid rgba(253,245,228,0.08);
+}
+.dash-project-label {
+  font-size: 0.62rem;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: rgba(253,245,228,0.5);
+}
+.dash-sidebar .dash-project-switch .dash-select {
+  height: 34px;
+  background: rgba(253,245,228,0.06);
+  color: var(--cream);
+  border: 1px solid rgba(253,245,228,0.14);
+  font-size: 0.85rem;
+}
+.dash-sidebar .dash-project-switch .dash-select:focus {
+  border-color: var(--gold);
+  box-shadow: 0 0 0 3px rgba(184,145,94,0.14);
+}
+@media (max-width: 900px) {
+  .dash-project-switch { display: none; }
+}
+
+/* ── UTM management page ────────────────────────────────── */
+.dash-utm-toolbar {
+  display: flex;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+  align-items: end;
+  padding: 0.85rem 1rem;
+  border-block-end: 1px solid rgba(52,39,29,0.06);
+  background: rgba(253,245,228,0.42);
+}
+.dash-utm-form-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 0.75rem;
+  padding: 1rem;
+  background: rgba(253,245,228,0.32);
+  border-radius: 10px;
+  border: 1px solid rgba(52,39,29,0.06);
+}
+.dash-utm-form-grid label {
+  display: grid;
+  gap: 0.3rem;
+  font-size: 0.72rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: rgba(27,19,13,0.5);
+}
+.dash-utm-url {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.78rem;
+  color: var(--bronze-900);
+  word-break: break-all;
+  background: rgba(184,145,94,0.06);
+  border: 1px solid rgba(184,145,94,0.14);
+  padding: 0.4rem 0.55rem;
+  border-radius: 6px;
+}
+.dash-utm-copy {
+  height: 30px;
+  padding-inline: 0.7rem;
+  border-radius: 6px;
+  border: 1px solid rgba(52,39,29,0.16);
+  background: var(--cream);
+  color: var(--bronze-900);
+  font-size: 0.78rem;
+  cursor: pointer;
+}
+.dash-utm-copy:hover { background: rgba(184,145,94,0.12); }
+.dash-utm-copy[data-copied='true'] {
+  background: var(--bronze-900);
+  color: var(--cream);
+  border-color: var(--bronze-900);
+}
+.dash-utm-channel {
+  font-weight: 500;
+  color: var(--bronze-900);
+}
+.dash-utm-archived {
+  opacity: 0.55;
+  text-decoration: line-through;
+}
+

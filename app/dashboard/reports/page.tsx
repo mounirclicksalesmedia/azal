@@ -1,7 +1,8 @@
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { verifyStaffSession } from '@/lib/dashboard/dal';
+import { resolveProject } from '@/lib/dashboard/project';
 import FunnelChart from './components/FunnelChart';
-import type { Lead, LeadStatus, LeadSource } from '@/lib/supabase/types';
+import { PROJECT_LABEL, type Lead, type LeadStatus, type LeadSource } from '@/lib/supabase/types';
 
 export const dynamic = 'force-dynamic';
 
@@ -17,9 +18,11 @@ const FUNNEL_STAGES: { stage: string; statuses: LeadStatus[] }[] = [
 export default async function ReportsPage({
   searchParams,
 }: {
-  searchParams: Promise<{ from?: string; to?: string }>;
+  searchParams: Promise<{ from?: string; to?: string; project?: string }>;
 }) {
-  const { from, to } = await searchParams;
+  const sp = await searchParams;
+  const { from, to } = sp;
+  const project = resolveProject(sp);
   const fromDate = from || isoDaysAgo(30);
   const toDate = to || new Date().toISOString().slice(0, 10);
 
@@ -29,6 +32,7 @@ export default async function ReportsPage({
   const { data: leads } = await supabase
     .from('leads')
     .select('*')
+    .eq('project', project)
     .gte('created_at', `${fromDate}T00:00:00`)
     .lte('created_at', `${toDate}T23:59:59`)
     .order('created_at', { ascending: false });
@@ -48,7 +52,7 @@ export default async function ReportsPage({
     <>
       <header className="dash-page-head">
         <div>
-          <div className="dash-eyebrow">Reports</div>
+          <div className="dash-eyebrow">{PROJECT_LABEL[project]} · Reports</div>
           <h1 className="dash-title">Performance breakdown</h1>
           <p className="dash-subtitle">
             Filter the date range to compare conversion across periods. Numbers reflect
@@ -56,10 +60,8 @@ export default async function ReportsPage({
           </p>
         </div>
 
-        <form
-          method="get"
-          className="dash-date-form"
-        >
+        <form method="get" className="dash-date-form">
+          <input type="hidden" name="project" value={project} />
           <input
             type="date"
             name="from"

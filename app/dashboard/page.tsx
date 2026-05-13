@@ -1,10 +1,11 @@
 import Link from 'next/link';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 import { verifyStaffSession } from '@/lib/dashboard/dal';
+import { resolveProject } from '@/lib/dashboard/project';
 import StatusBadge from './components/StatusBadge';
 import LeadsOverTimeChart from './components/LeadsOverTimeChart';
 import StatusPieChart from './components/StatusPieChart';
-import type { Lead, LeadStatus } from '@/lib/supabase/types';
+import { PROJECT_LABEL, type Lead, type LeadStatus } from '@/lib/supabase/types';
 
 type KpiRow = {
   total: number;
@@ -17,36 +18,53 @@ type KpiRow = {
   lost: number;
 };
 
+const EMPTY_KPI: KpiRow = {
+  total: 0,
+  today: 0,
+  last_7d: 0,
+  booked: 0,
+  showed_up: 0,
+  no_show: 0,
+  won: 0,
+  lost: 0,
+};
+
 export const dynamic = 'force-dynamic';
 
-export default async function DashboardPage() {
+export default async function DashboardPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ project?: string }>;
+}) {
   await verifyStaffSession();
+  const sp = await searchParams;
+  const project = resolveProject(sp);
   const supabase = createSupabaseAdminClient();
 
   const [{ data: kpiRows }, { data: byDay }, { data: byStatus }, { data: recent }] =
     await Promise.all([
-      supabase.from('lead_kpis').select('*').limit(1),
-      supabase.from('leads_by_day').select('day, count'),
-      supabase.from('leads_by_status').select('status, count'),
+      supabase
+        .from('lead_kpis_by_project')
+        .select('*')
+        .eq('project', project)
+        .limit(1),
+      supabase
+        .from('leads_by_day_by_project')
+        .select('day, count')
+        .eq('project', project),
+      supabase
+        .from('leads_by_status_by_project')
+        .select('status, count')
+        .eq('project', project),
       supabase
         .from('leads')
-        .select('id, full_name, phone, email, booking_date, status, source, created_at')
+        .select('id, full_name, phone, email, booking_date, status, source, utm_source, created_at')
+        .eq('project', project)
         .order('created_at', { ascending: false })
         .limit(8),
     ]);
 
-  const kpi: KpiRow =
-    (kpiRows?.[0] as KpiRow | undefined) ?? {
-      total: 0,
-      today: 0,
-      last_7d: 0,
-      booked: 0,
-      showed_up: 0,
-      no_show: 0,
-      won: 0,
-      lost: 0,
-    };
-
+  const kpi: KpiRow = (kpiRows?.[0] as KpiRow | undefined) ?? EMPTY_KPI;
   const conversion = kpi.total > 0 ? Math.round((kpi.won / kpi.total) * 100) : 0;
   const showRate =
     kpi.booked > 0 ? Math.round((kpi.showed_up / kpi.booked) * 100) : 0;
@@ -55,13 +73,17 @@ export default async function DashboardPage() {
     <>
       <header className="dash-page-head">
         <div>
-          <div className="dash-eyebrow">Overview</div>
+          <div className="dash-eyebrow">{PROJECT_LABEL[project]} · Overview</div>
           <h1 className="dash-title">Pipeline at a glance</h1>
           <p className="dash-subtitle">
-            Leads captured from Azal, booking outcomes, and conversion across the funnel.
+            Leads captured from {PROJECT_LABEL[project]}, booking outcomes, and conversion
+            across the funnel.
           </p>
         </div>
-        <Link href="/dashboard/leads" className="dash-btn dash-btn-primary">
+        <Link
+          href={`/dashboard/leads?project=${project}`}
+          className="dash-btn dash-btn-primary"
+        >
           View all leads
         </Link>
       </header>
@@ -110,7 +132,10 @@ export default async function DashboardPage() {
       <section>
         <div className="dash-section-head">
           <div className="dash-section-title">Recent leads</div>
-          <Link href="/dashboard/leads" className="dash-section-meta">
+          <Link
+            href={`/dashboard/leads?project=${project}`}
+            className="dash-section-meta"
+          >
             View all →
           </Link>
         </div>
@@ -122,12 +147,14 @@ export default async function DashboardPage() {
                   <th>Created</th>
                   <th>Name</th>
                   <th>Phone</th>
-                  <th>Booking</th>
+                  <th>Source</th>
                   <th>Status</th>
                 </tr>
               </thead>
               <tbody>
-                {(recent as Lead[]).map((l) => (
+                {(recent as Pick<Lead,
+                  'id' | 'full_name' | 'phone' | 'email' | 'booking_date' | 'status' | 'source' | 'utm_source' | 'created_at'
+                >[]).map((l) => (
                   <tr key={l.id}>
                     <td className="dash-mono">
                       {new Date(l.created_at).toLocaleDateString(undefined, {
@@ -139,7 +166,9 @@ export default async function DashboardPage() {
                     <td className="dash-mono" dir="ltr">
                       {l.phone}
                     </td>
-                    <td className="dash-mono">{l.booking_date ?? '—'}</td>
+                    <td className="dash-capitalize">
+                      {l.utm_source || l.source}
+                    </td>
                     <td>
                       <StatusBadge status={l.status} />
                     </td>
@@ -148,7 +177,9 @@ export default async function DashboardPage() {
               </tbody>
             </table>
           ) : (
-            <div className="dash-empty">No leads yet — submissions will appear here.</div>
+            <div className="dash-empty">
+              No leads yet for {PROJECT_LABEL[project]} — submissions will appear here.
+            </div>
           )}
         </div>
       </section>
