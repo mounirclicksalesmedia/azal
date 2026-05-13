@@ -148,8 +148,8 @@ select
   count(*)::int                       as count
 from public.leads
 where created_at >= now() - interval '60 days'
-group by project, 1
-order by project, 1;
+group by project, date_trunc('day', created_at)
+order by project, day;
 
 create or replace view public.leads_by_status_by_project as
 select project, status, count(*)::int as count
