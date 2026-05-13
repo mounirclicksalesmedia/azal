@@ -2,6 +2,41 @@
 -- Idempotent: safe to re-run.
 
 -- ─────────────────────────────────────────────────────────
+-- 0. Prerequisites (re-declared so this file is self-sufficient)
+-- ─────────────────────────────────────────────────────────
+do $$
+begin
+  if not exists (select 1 from pg_type where typname = 'app_role') then
+    create type app_role as enum ('admin', 'agent', 'viewer');
+  end if;
+end$$;
+
+-- SECURITY DEFINER role helper used by RLS policies below.
+create or replace function public.current_user_role()
+returns app_role
+language sql
+stable
+security definer
+set search_path = public
+as $$
+  select role from public.profiles where id = auth.uid();
+$$;
+
+revoke all on function public.current_user_role() from public;
+grant execute on function public.current_user_role() to authenticated;
+
+-- updated_at trigger helper (used by utm_links).
+create or replace function public.set_updated_at()
+returns trigger
+language plpgsql
+as $$
+begin
+  new.updated_at := now();
+  return new;
+end;
+$$;
+
+-- ─────────────────────────────────────────────────────────
 -- 1. leads.project (multi-project isolation)
 -- ─────────────────────────────────────────────────────────
 alter table public.leads
