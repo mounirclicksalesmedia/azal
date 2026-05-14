@@ -146,7 +146,10 @@
 @media (min-width: 640px) {
   .asha-brand-logo { height: 64px; }
 }
-.asha-nav-links { display: flex; align-items: center; gap: 36px; }
+.asha-nav-links {
+  display: flex; align-items: center; gap: 36px;
+  flex: 1; justify-content: center;
+}
 .asha-nav-links a {
   font-size: 14px; color: var(--bronze-900);
   position: relative; padding: 6px 0;
