@@ -158,6 +158,12 @@
 .asha-nav-links a:hover { color: var(--gold); }
 @media (max-width: 860px) { .asha-nav-links { display: none; } }
 
+/* group the contact pill + burger together on the right */
+.asha-nav-actions {
+  display: inline-flex; align-items: center; gap: 10px;
+  margin-inline-start: auto;
+}
+
 /* ── burger toggle (mobile only) */
 .asha-nav-burger {
   display: none;

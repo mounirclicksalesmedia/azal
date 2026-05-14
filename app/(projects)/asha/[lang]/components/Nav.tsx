@@ -48,24 +48,26 @@ export default function Nav({ dict }: Props) {
           ))}
         </nav>
 
-        <div className="asha-nav-cta">
-          <Pill href="#booking" variant="solid">
-            {dict.nav.cta}
-          </Pill>
-        </div>
+        <div className="asha-nav-actions">
+          <div className="asha-nav-cta">
+            <Pill href="#booking" variant="solid">
+              {dict.nav.cta}
+            </Pill>
+          </div>
 
-        <button
-          type="button"
-          className={`asha-nav-burger${open ? ' is-open' : ''}`}
-          aria-label={open ? 'Close menu' : 'Open menu'}
-          aria-expanded={open}
-          aria-controls="asha-mobile-menu"
-          onClick={() => setOpen((v) => !v)}
-        >
-          <span />
-          <span />
-          <span />
-        </button>
+          <button
+            type="button"
+            className={`asha-nav-burger${open ? ' is-open' : ''}`}
+            aria-label={open ? 'Close menu' : 'Open menu'}
+            aria-expanded={open}
+            aria-controls="asha-mobile-menu"
+            onClick={() => setOpen((v) => !v)}
+          >
+            <span />
+            <span />
+            <span />
+          </button>
+        </div>
       </div>
 
       <div
