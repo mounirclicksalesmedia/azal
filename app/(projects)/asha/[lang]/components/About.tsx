@@ -1,4 +1,5 @@
 import type { Dictionary } from '../dictionaries';
+import MasterplanVideo from './MasterplanVideo';
 import Pill from './Pill';
 import Reveal from './Reveal';
 
@@ -54,17 +55,11 @@ export default function About({ dict }: Props) {
             </div>
           </div>
 
-          <div className="asha-about-photo" data-reveal-child>
-            <div className="bldg" />
-            <div className="placeholder-tag">{a.photoLabel}</div>
-            <div className="chips">
-              {a.photoChips.map((c) => (
-                <span className="asha-chip-glass" key={c}>
-                  {c}
-                </span>
-              ))}
-            </div>
-          </div>
+          <MasterplanVideo
+            src="/asha/plan.mp4"
+            photoLabel={a.photoLabel}
+            chips={a.photoChips}
+          />
         </Reveal>
       </div>
     </section>

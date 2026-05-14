@@ -351,19 +351,22 @@
     repeating-linear-gradient(180deg, transparent 0 22px, rgba(255,255,255,0.04) 22px 23px),
     repeating-linear-gradient(90deg,  transparent 0 80px, rgba(255,255,255,0.05) 80px 81px);
 }
-.asha-about-photo .bldg {
-  position: absolute; inset: 22% 12% 0 12%;
-  background: linear-gradient(180deg, #fdf3dc 0%, #e9c186 60%, #8A603E 100%);
-  border-radius: 8px 8px 0 0;
-  box-shadow: inset 0 0 0 1px rgba(255,255,255,0.18);
+.asha-about-photo .asha-about-video {
+  position: absolute; inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  will-change: transform;
+  transform-origin: center center;
+  z-index: 1;
+  pointer-events: none;
 }
-.asha-about-photo .bldg::after {
+.asha-about-photo::after {
   content: ""; position: absolute; inset: 0;
-  background:
-    repeating-linear-gradient(180deg, transparent 0 18px, rgba(27,19,13,0.45) 18px 19px),
-    repeating-linear-gradient(90deg,  transparent 0 28px, rgba(27,19,13,0.35) 28px 29px);
-  opacity: 0.85; border-radius: inherit;
+  background: linear-gradient(180deg, rgba(27,19,13,0) 55%, rgba(27,19,13,0.45) 100%);
+  z-index: 2; pointer-events: none;
 }
+.asha-about-photo .placeholder-tag,
+.asha-about-photo .chips { z-index: 3; }
 .asha-about-photo .placeholder-tag {
   position: absolute; inset: auto auto 18px 18px;
   background: rgba(27,19,13,0.55); color: rgba(253,245,228,0.85);
