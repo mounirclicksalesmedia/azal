@@ -8,7 +8,7 @@ type Props = { project: Project };
 
 const DEFAULT_DESTINATION: Record<Project, string> = {
   azal: '/azal/ar',
-  arsh: '/arsh/ar',
+  asha: '/asha/ar',
 };
 
 export default function UtmCreateForm({ project }: Props) {

@@ -8,7 +8,7 @@ import { verifyStaffSession } from '@/lib/dashboard/dal';
 const slugRule = /^[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$/;
 
 const CreateUtmSchema = z.object({
-  project: z.enum(['azal', 'arsh']),
+  project: z.enum(['azal', 'asha']),
   name: z.string().min(2).max(120).trim(),
   slug: z.string().min(1).max(60).trim().toLowerCase().regex(slugRule, {
     message: 'Use lowercase letters, numbers, and dashes only.',

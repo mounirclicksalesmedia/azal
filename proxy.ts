@@ -4,7 +4,7 @@ import { createServerClient } from '@supabase/ssr';
 
 const locales = ['ar', 'en'];
 const defaultLocale = 'ar';
-const projects = ['azal', 'arsh'];
+const projects = ['azal', 'asha'];
 
 // Routes that opt out of the marketing-site locale rewrite.
 const STAFF_PREFIXES = ['/dashboard', '/login', '/logout', '/api', '/auth'];

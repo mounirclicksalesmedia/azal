@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { createSupabaseAdminClient } from '@/lib/supabase/admin';
 
 const LeadInput = z.object({
-  project: z.enum(['azal', 'arsh']).optional(),
+  project: z.enum(['azal', 'asha']).optional(),
   full_name: z.string().min(2).max(120).trim(),
   phone: z.string().min(6).max(40).trim(),
   email: z.string().email().max(160).trim().toLowerCase(),

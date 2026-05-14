@@ -13,22 +13,22 @@ export type AppRole = 'admin' | 'agent' | 'viewer';
 
 export type LeadSource = 'website' | 'whatsapp' | 'phone' | 'referral' | 'other';
 
-export type Project = 'azal' | 'arsh';
+export type Project = 'azal' | 'asha';
 
 export const PROJECTS: { slug: Project; name: string }[] = [
   { slug: 'azal', name: 'Azal' },
-  { slug: 'arsh', name: 'Arsh' },
+  { slug: 'asha', name: 'Asha' },
 ];
 
 export const PROJECT_LABEL: Record<Project, string> = {
   azal: 'Azal',
-  arsh: 'Arsh',
+  asha: 'Asha',
 };
 
 export const DEFAULT_PROJECT: Project = 'azal';
 
 export const isProject = (v: string | null | undefined): v is Project =>
-  v === 'azal' || v === 'arsh';
+  v === 'azal' || v === 'asha';
 
 export type Lead = {
   id: string;
