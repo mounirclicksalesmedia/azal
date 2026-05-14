@@ -33,10 +33,16 @@ export async function generateMetadata({
   if (!hasLocale(lang)) return {};
   const dict = await getDictionary(lang);
   const dir = getDirection(lang);
+  const shareImage = '/asha/gallery/1.jpeg';
   return {
     title: dict.meta.title,
     description: dict.meta.description,
     metadataBase: new URL('https://azal.sa'),
+    icons: {
+      icon: [{ url: '/brand/logo/black_logo.svg', type: 'image/svg+xml' }],
+      shortcut: [{ url: '/brand/logo/black_logo.svg' }],
+      apple: [{ url: '/brand/logo/black_logo.svg', type: 'image/svg+xml' }],
+    },
     alternates: {
       canonical: `/asha/${lang}`,
       languages: {
@@ -51,6 +57,18 @@ export async function generateMetadata({
       locale: lang === 'ar' ? 'ar_SA' : 'en_US',
       url: `https://azal.sa/asha/${lang}`,
       siteName: 'Asha',
+      images: [
+        {
+          url: shareImage,
+          alt: dict.meta.title,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: dict.meta.title,
+      description: dict.meta.description,
+      images: [shareImage],
     },
     other: {
       'theme-color': '#34271D',

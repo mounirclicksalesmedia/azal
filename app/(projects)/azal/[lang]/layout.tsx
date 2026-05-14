@@ -51,10 +51,16 @@ export async function generateMetadata({
   if (!hasLocale(lang)) return {};
   const dict = await getDictionary(lang);
   const dir = getDirection(lang);
+  const shareImage = '/azal/hero/hero-1.jpg';
   return {
     title: dict.meta.title,
     description: dict.meta.description,
     metadataBase: new URL('https://azal.sa'),
+    icons: {
+      icon: [{ url: '/brand/logo/black_logo.svg', type: 'image/svg+xml' }],
+      shortcut: [{ url: '/brand/logo/black_logo.svg' }],
+      apple: [{ url: '/brand/logo/black_logo.svg', type: 'image/svg+xml' }],
+    },
     alternates: {
       canonical: `/azal/${lang}`,
       languages: {
@@ -71,11 +77,9 @@ export async function generateMetadata({
       siteName: 'Azal',
       images: [
         {
-          url: '/opengraph-image.png',
-          width: 1167,
-          height: 835,
-          alt: 'Rawajeh Holding',
-          type: 'image/png',
+          url: shareImage,
+          alt: dict.meta.title,
+          type: 'image/jpeg',
         },
       ],
     },
@@ -83,7 +87,7 @@ export async function generateMetadata({
       card: 'summary_large_image',
       title: dict.meta.title,
       description: dict.meta.description,
-      images: ['/twitter-image.png'],
+      images: [shareImage],
     },
     other: {
       'theme-color': '#34271D',
