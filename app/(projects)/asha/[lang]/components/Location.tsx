@@ -1,9 +1,11 @@
 import type { Dictionary } from '../dictionaries';
+import AshaMap from './AshaMap';
 import Pill from './Pill';
 import Reveal from './Reveal';
-import { FeatureIcon } from './Icons';
 
 type Props = { dict: Dictionary };
+
+const MAPS_QUERY = encodeURIComponent('Asha Hittin Riyadh Imam Saud bin Faisal');
 
 export default function Location({ dict }: Props) {
   const l = dict.location;
@@ -55,27 +57,16 @@ export default function Location({ dict }: Props) {
               <span className="tag">{l.hours.tag}</span>
             </div>
 
-            <Pill href="#" style={{ alignSelf: 'flex-start' }}>
+            <Pill
+              href={`https://www.google.com/maps/search/?api=1&query=${MAPS_QUERY}`}
+              style={{ alignSelf: 'flex-start' }}
+            >
               {l.mapsCta}
             </Pill>
           </div>
 
-          <div className="asha-map-wrap" data-reveal-child>
-            <div className="asha-map-badge">
-              <FeatureIcon name="pin" className="w-3 h-3" />
-              {l.mapBadge}
-            </div>
-            <div className="asha-map-pin">
-              <div className="pulse" />
-              <div className="card">
-                <div className="ttl">{l.mapPin.ttl}</div>
-                <div className="sub">{l.mapPin.sub}</div>
-              </div>
-            </div>
-            <div className="asha-map-controls">
-              <button aria-label="Zoom in">+</button>
-              <button aria-label="Zoom out">−</button>
-            </div>
+          <div className="asha-map-wrap is-live" data-reveal-child>
+            <AshaMap badge={l.mapBadge} pinTtl={l.mapPin.ttl} pinSub={l.mapPin.sub} />
           </div>
         </Reveal>
       </div>
