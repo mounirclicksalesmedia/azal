@@ -1,48 +1,8 @@
 import type { Dictionary } from '../dictionaries';
-import { FeatureIcon, type IconName } from './Icons';
+import FeaturesGrid from './FeaturesGrid';
 import Reveal from './Reveal';
 
 type Props = { dict: Dictionary };
-
-type Item = Dictionary['features']['items'][number];
-
-function FeatCard({ item }: { item: Item }) {
-  const sizeTokens = item.size.split(' ');
-  const sizeClass = sizeTokens.includes('lg')
-    ? 'lg'
-    : sizeTokens.includes('xl')
-    ? 'xl'
-    : 'sm';
-  const isText = sizeTokens.includes('text');
-
-  return (
-    <div
-      className={`asha-feat ${sizeClass}${isText ? ' is-text' : ''}`}
-      data-reveal-child
-    >
-      <div className="idx">{item.idx}</div>
-
-      {!isText && 'icon' in item && item.icon ? (
-        <div className="glyph">
-          <FeatureIcon name={item.icon as IconName} className="w-4 h-4" />
-        </div>
-      ) : null}
-
-      {isText ? (
-        <div className="big">
-          {item.bigPre} <span className="gold">{item.bigGold}</span>
-        </div>
-      ) : (
-        <div className="big">
-          {item.big}
-          {item.unit ? <span className="unit">{item.unit}</span> : null}
-        </div>
-      )}
-
-      <div className="lab">{item.lab}</div>
-    </div>
-  );
-}
 
 export default function Features({ dict }: Props) {
   const f = dict.features;
@@ -71,11 +31,7 @@ export default function Features({ dict }: Props) {
           </div>
         </Reveal>
 
-        <Reveal className="asha-feat-grid" stagger y={20}>
-          {f.items.map((item) => (
-            <FeatCard key={item.idx} item={item} />
-          ))}
-        </Reveal>
+        <FeaturesGrid items={f.items} />
       </div>
     </section>
   );

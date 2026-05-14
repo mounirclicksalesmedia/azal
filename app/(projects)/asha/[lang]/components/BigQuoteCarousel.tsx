@@ -1,4 +1,3 @@
-import Image from 'next/image';
 import type { Dictionary } from '../dictionaries';
 
 type Props = { dict: Dictionary };
@@ -104,12 +103,12 @@ export default function BigQuoteCarousel({ dict }: Props) {
             </div>
           ) : (
             <div className="asha-bq-card">
-              <Image
+              <img
                 src={c.image}
                 alt=""
-                fill
-                sizes="(max-width: 640px) 260px, 300px"
                 className="asha-bq-card-img"
+                loading="lazy"
+                decoding="async"
                 aria-hidden
               />
               <div className="asha-bq-card-veil" />
