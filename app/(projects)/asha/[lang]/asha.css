@@ -483,34 +483,62 @@
   display: flex; flex-direction: column;
 }
 .asha-about-card-list {
-  list-style: none; margin: 28px 0 0; padding: 0;
-  border-top: 1px solid var(--line-soft);
+  list-style: none;
+  margin: 28px 0 0;
+  padding: 0;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
 }
 .asha-about-card-list li {
-  display: grid;
-  grid-template-columns: minmax(112px, max-content) 12px 1fr;
-  align-items: baseline;
-  gap: 0;
-  padding: 14px 0;
-  border-bottom: 1px solid var(--line-soft);
+  position: relative;
+  display: flex; flex-direction: column;
+  gap: 6px;
+  padding: 16px 18px;
+  padding-inline-start: 22px;
+  background: rgba(184, 145, 94, 0.06);
+  border: 1px solid var(--line-soft);
+  border-radius: 14px;
+  transition: background .25s ease, border-color .25s ease, transform .25s ease;
 }
-.asha-about-card-list .k {
-  font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  text-transform: uppercase;
-  color: var(--bronze-500);
-  direction: ltr;
-}
-.asha-about-card-list .sep {
-  display: inline-block; width: 6px; height: 6px;
-  border-radius: 50%; background: var(--gold);
-  align-self: center; justify-self: center;
+.asha-about-card-list li::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 10px;
+  top: 18px;
+  bottom: 18px;
+  width: 3px;
+  border-radius: 3px;
+  background: var(--gold);
   opacity: 0.85;
 }
-.asha-about-card-list .v {
-  font-size: 14.5px; line-height: 1.55;
+.asha-about-card-list li:hover {
+  background: rgba(184, 145, 94, 0.10);
+  border-color: rgba(184, 145, 94, 0.25);
+}
+.asha-about-card-list .k {
+  font-family: var(--font-display);
+  font-weight: 700;
+  font-size: 15px;
+  line-height: 1.2;
   color: var(--bronze-900);
+  letter-spacing: -0.005em;
+  /* keep Latin tokens readable, but never force LTR or uppercase
+     — that would mangle Arabic labels. */
+}
+.asha-about-card-list .sep { display: none; }
+.asha-about-card-list .v {
+  font-size: 14.5px;
+  line-height: 1.65;
+  color: rgba(52, 39, 29, 0.72);
+  font-family: inherit;
+}
+@media (max-width: 640px) {
+  .asha-about-card-list { gap: 10px; margin-top: 22px; }
+  .asha-about-card-list li { padding: 14px 14px; padding-inline-start: 18px; }
+  .asha-about-card-list li::before { inset-inline-start: 8px; top: 16px; bottom: 16px; }
+  .asha-about-card-list .k { font-size: 14px; }
+  .asha-about-card-list .v { font-size: 13.5px; }
 }
 .asha-about-card .tags {
   display: flex; flex-wrap: wrap; gap: 8px; margin-top: 24px;
