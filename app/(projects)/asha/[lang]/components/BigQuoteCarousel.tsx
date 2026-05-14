@@ -3,10 +3,19 @@ import type { Dictionary } from '../dictionaries';
 type Props = { dict: Dictionary };
 
 const galleryImages = [
-  '/gallery/g-1.jpg',
-  '/gallery/g-2.jpg',
-  '/gallery/g-3.jpg',
-  '/gallery/g-4.jpg',
+  '/asha/gallery/1.jpeg',
+  '/asha/gallery/2.jpeg',
+  '/asha/gallery/3.jpeg',
+  '/asha/gallery/4.jpeg',
+  '/asha/gallery/5.jpeg',
+  '/asha/gallery/6.jpeg',
+  '/asha/gallery/7.jpeg',
+  '/asha/gallery/8.jpeg',
+  '/asha/gallery/9.jpeg',
+  '/asha/gallery/10.jpeg',
+  '/asha/gallery/11.jpeg',
+  '/asha/gallery/12.jpeg',
+  '/asha/gallery/13.jpeg',
 ];
 
 type Cell =
