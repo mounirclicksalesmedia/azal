@@ -158,6 +158,141 @@
 .asha-nav-links a:hover { color: var(--gold); }
 @media (max-width: 860px) { .asha-nav-links { display: none; } }
 
+/* ── burger toggle (mobile only) */
+.asha-nav-burger {
+  display: none;
+  width: 44px; height: 44px;
+  border-radius: 14px;
+  border: 1px solid var(--line);
+  background: rgba(253,253,252,0.7);
+  backdrop-filter: blur(10px) saturate(140%);
+  color: var(--bronze-900);
+  position: relative;
+  align-items: center; justify-content: center;
+  transition: background .25s ease, border-color .25s ease;
+  z-index: 60;
+}
+.asha-nav-burger:hover { background: var(--bronze-900); color: var(--cream); border-color: var(--bronze-900); }
+.asha-nav-burger span {
+  position: absolute; left: 50%;
+  width: 18px; height: 1.6px;
+  background: currentColor;
+  border-radius: 2px;
+  transform: translateX(-50%);
+  transition: transform .35s cubic-bezier(.2,.7,.2,1), opacity .25s ease, top .35s ease;
+}
+.asha-nav-burger span:nth-child(1) { top: 14px; }
+.asha-nav-burger span:nth-child(2) { top: 21px; }
+.asha-nav-burger span:nth-child(3) { top: 28px; }
+.asha-nav-burger.is-open span:nth-child(1) { top: 21px; transform: translateX(-50%) rotate(45deg); }
+.asha-nav-burger.is-open span:nth-child(2) { opacity: 0; }
+.asha-nav-burger.is-open span:nth-child(3) { top: 21px; transform: translateX(-50%) rotate(-45deg); }
+@media (max-width: 860px) {
+  .asha-nav-burger { display: inline-flex; }
+  .asha-nav-inner { gap: 10px; }
+}
+/* on very narrow phones, free up space by dropping the inline CTA
+   (the same action is offered prominently in the slide-down menu) */
+@media (max-width: 420px) {
+  .asha-nav-cta { display: none; }
+}
+
+/* ── mobile slide-down menu */
+.asha-mobile-menu {
+  position: absolute;
+  inset: 100% 0 auto 0;
+  background: rgba(253,247,238,0.96);
+  backdrop-filter: blur(18px) saturate(150%);
+  -webkit-backdrop-filter: blur(18px) saturate(150%);
+  border-bottom: 1px solid var(--line-soft);
+  box-shadow: 0 18px 40px rgba(52,39,29,0.12);
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  pointer-events: none;
+  transition:
+    max-height .45s cubic-bezier(.2,.8,.2,1),
+    opacity .3s ease;
+  z-index: 55;
+}
+.asha-mobile-menu.is-open {
+  max-height: calc(100svh - 64px);
+  opacity: 1;
+  pointer-events: auto;
+}
+.asha-mobile-menu__inner {
+  display: flex; flex-direction: column;
+  padding: 18px 24px 28px;
+  gap: 4px;
+  max-width: 1320px;
+  margin-inline: auto;
+}
+.asha-mobile-menu__link {
+  display: flex; align-items: center; gap: 14px;
+  padding: 16px 8px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 20px;
+  color: var(--bronze-900);
+  border-bottom: 1px solid var(--line-soft);
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .4s ease, transform .4s ease, color .2s ease;
+}
+.asha-mobile-menu.is-open .asha-mobile-menu__link {
+  opacity: 1;
+  transform: translateY(0);
+}
+.asha-mobile-menu__link .num {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.2em;
+  color: var(--bronze-500);
+  direction: ltr;
+  min-width: 24px;
+}
+.asha-mobile-menu__link .label { flex: 1; }
+.asha-mobile-menu__link .arrow {
+  color: var(--bronze-500);
+  transition: transform .25s ease, color .25s ease;
+}
+.asha-mobile-menu__link:hover,
+.asha-mobile-menu__link:active { color: var(--gold); }
+.asha-mobile-menu__link:hover .arrow { color: var(--gold); transform: translateX(4px); }
+[dir="rtl"] .asha-mobile-menu__link .arrow { transform: scaleX(-1); }
+[dir="rtl"] .asha-mobile-menu__link:hover .arrow { transform: scaleX(-1) translateX(4px); }
+
+.asha-mobile-menu__cta {
+  margin-top: 16px;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 14px;
+  background: var(--bronze-900);
+  color: var(--cream);
+  border-radius: 999px;
+  padding: 8px 8px 8px 22px;
+  font-family: var(--font-display);
+  font-weight: 600;
+  font-size: 16px;
+  height: 56px;
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity .4s ease .25s, transform .4s ease .25s, background .25s ease;
+}
+.asha-mobile-menu.is-open .asha-mobile-menu__cta {
+  opacity: 1;
+  transform: translateY(0);
+}
+.asha-mobile-menu__cta:hover { background: var(--gold); color: var(--bronze-900); }
+.asha-mobile-menu__cta .knob {
+  width: 40px; height: 40px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--bronze-900);
+  display: grid; place-items: center;
+}
+.asha-mobile-menu__cta:hover .knob { background: var(--bronze-900); color: var(--cream); }
+[dir="rtl"] .asha-mobile-menu__cta .knob svg { transform: scaleX(-1); }
+
 /* ── hero (cinematic video background) */
 .asha-hero {
   position: relative;
@@ -1197,7 +1332,7 @@
   .asha-h-md { font-size: clamp(22px, 6.4vw, 32px); line-height: 1.18; }
   .asha-body-lead { font-size: 15px; line-height: 1.6; }
 
-  /* pills — full-width, taller, easier to tap */
+  /* pills — full-width body CTAs, but never the nav header CTA */
   .asha-pill {
     width: 100%;
     justify-content: space-between;
@@ -1205,6 +1340,12 @@
     font-size: 14px;
   }
   .asha-pill .knob { width: 36px; height: 36px; }
+  .asha-nav .asha-pill {
+    width: auto;
+    padding: 4px 4px 4px 16px;
+    font-size: 13px;
+  }
+  .asha-nav .asha-pill .knob { width: 32px; height: 32px; }
   .asha-arrow-btn { width: 42px; height: 42px; }
 
   /* eyebrows + chips a touch smaller */
