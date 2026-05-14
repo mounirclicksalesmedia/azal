@@ -55,11 +55,7 @@ export default function About({ dict }: Props) {
             </div>
           </div>
 
-          <MasterplanVideo
-            src="/asha/plan.mp4"
-            photoLabel={a.photoLabel}
-            chips={a.photoChips}
-          />
+          <MasterplanVideo src="/asha/plan.mp4" />
         </Reveal>
       </div>
     </section>

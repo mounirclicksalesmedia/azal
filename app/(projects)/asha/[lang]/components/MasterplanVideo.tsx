@@ -11,11 +11,9 @@ if (typeof window !== 'undefined') {
 
 type Props = {
   src: string;
-  photoLabel: string;
-  chips: string[];
 };
 
-export default function MasterplanVideo({ src, photoLabel, chips }: Props) {
+export default function MasterplanVideo({ src }: Props) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
 
@@ -45,19 +43,6 @@ export default function MasterplanVideo({ src, photoLabel, chips }: Props) {
           },
         },
       );
-
-      gsap.from('.asha-about-photo__chip, .asha-about-photo__tag', {
-        opacity: 0,
-        y: 16,
-        duration: 0.7,
-        ease: 'power3.out',
-        stagger: 0.08,
-        scrollTrigger: {
-          trigger: containerRef.current,
-          start: 'top 75%',
-          toggleActions: 'play none none reverse',
-        },
-      });
     },
     { scope: containerRef },
   );
@@ -75,14 +60,6 @@ export default function MasterplanVideo({ src, photoLabel, chips }: Props) {
         preload="metadata"
         aria-hidden="true"
       />
-      <div className="placeholder-tag asha-about-photo__tag">{photoLabel}</div>
-      <div className="chips">
-        {chips.map((c) => (
-          <span className="asha-chip-glass asha-about-photo__chip" key={c}>
-            {c}
-          </span>
-        ))}
-      </div>
     </div>
   );
 }
