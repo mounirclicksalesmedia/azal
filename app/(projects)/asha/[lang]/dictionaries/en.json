@@ -53,6 +53,12 @@
     "cardTitleGold": "the rhythm of work",
     "cardTitleB": ".",
     "cardBody": "Modern architecture shaped around open air and calm circulation, organising the flow of teams and visitors seamlessly — from arrival, to parking, to the office villa.",
+    "cardHighlights": [
+      { "k": "Materials", "v": "Natural stone, warm timber, low-reflection glass" },
+      { "k": "Circulation", "v": "Quiet paths and open courtyards guide movement" },
+      { "k": "Daylight", "v": "Abundant natural light flowing through the working day" }
+    ],
+    "cardCta": "Explore the design language",
     "tags": ["Contemporary", "Green spaces", "Natural light", "Privacy", "Efficiency"],
     "photoLabel": "[ photo · masterplan view ]",
     "photoChips": ["Quality", "Privacy"]

@@ -39,13 +39,31 @@ export default function About({ dict }: Props) {
 
         <Reveal className="asha-about-grid" stagger>
           <div className="asha-about-card" data-reveal-child>
-            <div>
+            <div className="asha-about-card-top">
               <h3>
                 {a.cardTitleA} <span className="gold">{a.cardTitleGold}</span>
                 {a.cardTitleB}
               </h3>
               <p>{a.cardBody}</p>
+
+              <ul className="asha-about-card-list">
+                {a.cardHighlights.map((h) => (
+                  <li key={h.k}>
+                    <span className="k">{h.k}</span>
+                    <span className="sep" aria-hidden="true" />
+                    <span className="v">{h.v}</span>
+                  </li>
+                ))}
+              </ul>
+
+              <Pill
+                href="#features"
+                style={{ alignSelf: 'flex-start', marginTop: 28 }}
+              >
+                {a.cardCta}
+              </Pill>
             </div>
+
             <div className="tags">
               {a.tags.map((t) => (
                 <span className="asha-tag" key={t}>
