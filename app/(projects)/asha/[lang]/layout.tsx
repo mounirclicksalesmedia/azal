@@ -69,7 +69,6 @@ export default async function AshaLayout({
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const dir = getDirection(lang);
-  const dict = await getDictionary(lang);
 
   return (
     <html
@@ -78,7 +77,7 @@ export default async function AshaLayout({
       className={`${sansArabic.variable} ${mono.variable} h-full antialiased`}
     >
       <body className="asha-root min-h-full">
-        <AshaLoader brand={dict.brand} />
+        <AshaLoader />
         <SmoothScroll />
         <div className="asha-content">{children}</div>
       </body>
