@@ -1,0 +1,64 @@
+/* Reusable intro loader — Rawajeh wordmark line-draw. */
+
+.loader {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: grid;
+  place-items: center;
+  background: var(--bg, #FBF7EE);
+  pointer-events: none;
+  will-change: opacity;
+}
+
+.svg {
+  width: clamp(140px, 18vw, 220px);
+  height: auto;
+  display: block;
+  visibility: hidden;
+}
+.svg.isDrawing { visibility: visible; }
+
+.svg path,
+.svg polygon,
+.svg polyline {
+  fill: transparent;
+  stroke: var(--ink, #1B130D);
+  stroke-width: 1;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+.svg.isDrawing path,
+.svg.isDrawing polygon,
+.svg.isDrawing polyline {
+  animation: pageLoaderDraw 2.4s cubic-bezier(.65, 0, .35, 1) forwards;
+}
+@keyframes pageLoaderDraw {
+  to { stroke-dashoffset: 0; }
+}
+
+/* Global hooks: scroll lock while loading, content fade-in when ready. */
+:global(html.is-page-loading),
+:global(html.is-page-loading body) { overflow: hidden; }
+
+:global(.page-content) {
+  opacity: 1;
+  transform: none;
+  transition:
+    opacity 1s cubic-bezier(.2,.8,.2,1),
+    transform 1s cubic-bezier(.2,.8,.2,1);
+}
+:global(html.is-page-loading .page-content) {
+  opacity: 0;
+  transform: translateY(8px);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .svg { visibility: visible; }
+  .svg.isDrawing path,
+  .svg.isDrawing polygon,
+  .svg.isDrawing polyline {
+    animation: none;
+    stroke-dashoffset: 0 !important;
+  }
+}

@@ -1,13 +1,35 @@
 'use client';
 
 import { useEffect, useRef, useState } from 'react';
+import styles from './PageLoader.module.css';
 
 const DRAW_MS = 2400;
-const MIN_HOLD_MS = 900;
+const HOLD_MS = 900;
 const FADE_MS = 700;
 const MAX_WAIT_MS = 5500;
 
-export default function AshaLoader() {
+type Props = {
+  /**
+   * Optional CSS selector to wait for before fading out. If it matches a
+   * <video>, settles on readyState >= 2 / loadeddata / canplay. If it matches
+   * an <img>, settles when `complete`. Otherwise the loader settles purely on
+   * the minHoldMs timer.
+   */
+  waitForSelector?: string;
+  /** Minimum time the overlay stays up so the draw animation can finish. */
+  minHoldMs?: number;
+  /** Fade-out duration. */
+  fadeMs?: number;
+  /** Hard cap — never hold the page hostage if the asset stalls. */
+  maxWaitMs?: number;
+};
+
+export default function PageLoader({
+  waitForSelector,
+  minHoldMs = DRAW_MS + HOLD_MS,
+  fadeMs = FADE_MS,
+  maxWaitMs = MAX_WAIT_MS,
+}: Props) {
   const overlayRef = useRef<HTMLDivElement | null>(null);
   const svgRef = useRef<SVGSVGElement | null>(null);
   const [hidden, setHidden] = useState(false);
@@ -19,7 +41,7 @@ export default function AshaLoader() {
 
     const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
     const root = document.documentElement;
-    root.classList.add('asha-loading');
+    root.classList.add('is-page-loading');
 
     const shapes = Array.from(
       svg.querySelectorAll<SVGGeometryElement>('path, polygon, polyline'),
@@ -39,7 +61,7 @@ export default function AshaLoader() {
     }
 
     const raf = window.requestAnimationFrame(() => {
-      svg.classList.add('is-drawing');
+      svg.classList.add(styles.isDrawing);
     });
 
     const start = performance.now();
@@ -48,72 +70,98 @@ export default function AshaLoader() {
       if (resolved) return;
       resolved = true;
       const elapsed = performance.now() - start;
-      const minBeforeFade = reduceMotion ? 400 : DRAW_MS + MIN_HOLD_MS;
+      const minBeforeFade = reduceMotion ? 400 : minHoldMs;
       const wait = Math.max(0, minBeforeFade - elapsed);
       window.setTimeout(() => {
-        overlay.style.transition = `opacity ${FADE_MS}ms ease`;
+        overlay.style.transition = `opacity ${fadeMs}ms ease`;
         overlay.style.opacity = '0';
         window.setTimeout(() => {
-          root.classList.remove('asha-loading');
-          root.classList.add('asha-loaded');
+          root.classList.remove('is-page-loading');
           setHidden(true);
-        }, FADE_MS);
+        }, fadeMs);
       }, wait);
     };
 
-    // Hold until the hero video can paint its first frame (readyState >= 2),
-    // bounded by the minimum draw window and the hard cap.
-    const videoSelector = 'video[data-h-video]';
-    let video = document.querySelector<HTMLVideoElement>(videoSelector);
-    const onReady = () => settle();
-    const attachVideo = (v: HTMLVideoElement) => {
-      if (v.readyState >= 2) {
-        settle();
-        return;
-      }
-      v.addEventListener('loadeddata', onReady, { once: true });
-      v.addEventListener('canplay', onReady, { once: true });
-      v.addEventListener('error', onReady, { once: true });
-    };
+    let cleanupAsset: (() => void) | null = null;
 
-    let poll: number | null = null;
-    if (video) {
-      attachVideo(video);
-    } else {
-      poll = window.setInterval(() => {
-        video = document.querySelector<HTMLVideoElement>(videoSelector);
-        if (video) {
-          if (poll !== null) window.clearInterval(poll);
-          poll = null;
-          attachVideo(video);
+    if (waitForSelector) {
+      let pollId: number | null = null;
+      const findAndAttach = () => {
+        const el = document.querySelector(waitForSelector);
+        if (!el) return false;
+        if (el instanceof HTMLVideoElement) {
+          if (el.readyState >= 2) {
+            settle();
+            return true;
+          }
+          const onReady = () => settle();
+          el.addEventListener('loadeddata', onReady, { once: true });
+          el.addEventListener('canplay', onReady, { once: true });
+          el.addEventListener('error', onReady, { once: true });
+          cleanupAsset = () => {
+            el.removeEventListener('loadeddata', onReady);
+            el.removeEventListener('canplay', onReady);
+            el.removeEventListener('error', onReady);
+          };
+          return true;
         }
-      }, 60);
-      window.setTimeout(() => {
-        if (poll !== null) window.clearInterval(poll);
-      }, 2500);
+        if (el instanceof HTMLImageElement) {
+          if (el.complete) {
+            settle();
+            return true;
+          }
+          const onReady = () => settle();
+          el.addEventListener('load', onReady, { once: true });
+          el.addEventListener('error', onReady, { once: true });
+          cleanupAsset = () => {
+            el.removeEventListener('load', onReady);
+            el.removeEventListener('error', onReady);
+          };
+          return true;
+        }
+        // Generic element — just resolve once it's in the DOM.
+        settle();
+        return true;
+      };
+      if (!findAndAttach()) {
+        // Hero may mount slightly after this effect; poll briefly.
+        pollId = window.setInterval(() => {
+          if (findAndAttach() && pollId !== null) {
+            window.clearInterval(pollId);
+            pollId = null;
+          }
+        }, 60);
+        window.setTimeout(() => {
+          if (pollId !== null) {
+            window.clearInterval(pollId);
+            pollId = null;
+          }
+        }, 2500);
+      }
+      // Always start a min-hold timer too so we settle even if asset never resolves.
+      window.setTimeout(settle, minHoldMs);
+    } else {
+      // No asset to wait on — pure timer.
+      window.setTimeout(settle, minHoldMs);
     }
 
-    const maxTimer = window.setTimeout(settle, MAX_WAIT_MS);
+    // Hard cap.
+    const maxTimer = window.setTimeout(settle, maxWaitMs);
 
     return () => {
       window.cancelAnimationFrame(raf);
       window.clearTimeout(maxTimer);
-      if (poll !== null) window.clearInterval(poll);
-      if (video) {
-        video.removeEventListener('loadeddata', onReady);
-        video.removeEventListener('canplay', onReady);
-        video.removeEventListener('error', onReady);
-      }
-      root.classList.remove('asha-loading');
+      cleanupAsset?.();
+      root.classList.remove('is-page-loading');
     };
-  }, []);
+  }, [waitForSelector, minHoldMs, fadeMs, maxWaitMs]);
 
   if (hidden) return null;
 
   return (
     <div
       ref={overlayRef}
-      className="asha-loader"
+      className={styles.loader}
       role="status"
       aria-label="Loading"
     >
@@ -123,7 +171,7 @@ export default function AshaLoader() {
         viewBox="0 0 249.35 185.08"
         width="220"
         height="163"
-        className="asha-loader__svg"
+        className={styles.svg}
         aria-hidden="true"
       >
         <path d="M9.02,131.76c.28,0,.52,0,.73,0,.2,0,.37.02.5.02,2.86,0,5.02-.62,6.47-1.86,1.45-1.24,2.18-2.82,2.18-4.74s-.59-3.39-1.76-4.57c-1.17-1.17-2.73-1.75-4.65-1.75-.86,0-2.01.14-3.47.42v12.47Z" />
@@ -158,7 +206,7 @@ export default function AshaLoader() {
         <path d="M68.96,165.64c-1.15-.5-2.86-.76-5.06-.76h-6.09v.62h.66c.52,0,.92.15,1.18.44.13.14.28.55.28,1.65v9.49c0,1-.12,1.39-.22,1.54-.24.37-.64.55-1.23.55h-.66v.62h6.68c2.87,0,5.04-.78,6.45-2.33,1.26-1.39,1.89-3.14,1.89-5.2,0-1.54-.36-2.91-1.06-4.09-.7-1.18-1.65-2.03-2.81-2.54" />
         <path d="M81.14,165.5h.63c.33,0,.64.08.94.24.2.12.34.26.4.41.09.22.13.71.13,1.43v9.49c0,1.06-.13,1.46-.24,1.6-.25.32-.67.49-1.24.49h-.63v.62h6.51v-.62h-.64c-.33,0-.64-.08-.93-.25-.21-.12-.35-.26-.41-.41-.09-.22-.13-.71-.13-1.43v-9.49c0-1.06.14-1.46.25-1.6.25-.32.66-.49,1.23-.49h.64v-.62h-6.51v.62Z" />
         <path d="M106.26,165.5h.62c.54,0,.94.14,1.19.42.12.14.27.53.27,1.62v8.17l-8.79-10.79-.03-.04h-4.15v.62h.11c.41,0,.72.03.92.09.41.13.73.28.94.43.21.15.52.47.93.94v10.18c0,.99-.12,1.38-.22,1.52-.24.34-.66.52-1.24.52h-.62v.62h5.33v-.62h-.63c-.54,0-.94-.14-1.19-.42-.12-.14-.27-.53-.27-1.62v-8.75l9.5,11.6.03.04h.55v-12.5c0-.99.12-1.38.22-1.52.24-.35.64-.52,1.23-.52h.63v-.62h-5.33v.62Z" />
-        <path d="M125.65,172.19h.11c.57,0,.97.06,1.19.17.22.11.37.26.47.47.1.21.16.68.16,1.4v4.19c-.44.25-.91.44-1.38.57-.49.13-1.01.2-1.54.2-.9,0-1.79-.27-2.65-.79-.86-.52-1.56-1.36-2.09-2.5-.53-1.14-.8-2.41-.8-3.79,0-1.7.41-3.18,1.21-4.41.95-1.44,2.36-2.17,4.18-2.17,1.34,0,2.45.42,3.3,1.24.59.57,1.08,1.43,1.46,2.57l.02.07h.58l-.4-4.86h-.6v.1c-.03.43-.1.61-.16.68-.08.1-.16.15-.27.15-.08,0-.29-.04-.77-.22-.8-.3-1.43-.49-1.49-.49-.44-.09-.94-.13-1.48-.13-1.48,0-2.78.32-3.87.96-1.3.77-2.33,1.87-3.07,3.29-.63,1.19-.95,2.46-.95,3.77,0,1.8.57,3.41,1.68,4.79,1.49,1.84,3.69,2.77,6.55,2.77.99,0,1.91-.11,2.73-.32.81-.21,1.65-.55,2.49-1l.06-.03v-4.56c0-.77.07-1.28.2-1.53.19-.34.54-.51,1.06-.51h.38v-.63h-5.91v.63Z" />
+        <path d="M125.65,172.19h.11c.57,0,.97.06,1.19.17.22.11.37.26.47.47.1.21.16.68.16,1.4v4.19c-.44.25-.91.44-1.38.57-.49.13-1.01.2-1.54.2-.9,0-1.79-.27-2.65-.79-.86-.52-1.56-1.36-2.09-2.5-.53-1.14-.8-2.41-.8-3.79,0-1.7.41-3.18,1.21-4.41.95-1.44,2.36-2.17,4.18-2.17,1.34,0,2.45.42,3.3,1.24.59.57,1.08,1.43,1.46,2.57l.02.07h.58l-.4-4.86h-.6v.1c-.03.43-.1.61-.16.68-.08.1-.16.15-.27.15-.08,0-.29-.04-.77-.22-.8-.3-1.43-.49-1.88-.58-.44-.09-.94-.13-1.48-.13-1.48,0-2.78.32-3.87.96-1.3.77-2.33,1.87-3.07,3.29-.63,1.19-.95,2.46-.95,3.77,0,1.8.57,3.41,1.68,4.79,1.49,1.84,3.69,2.77,6.55,2.77.99,0,1.91-.11,2.73-.32.81-.21,1.65-.55,2.49-1l.06-.03v-4.56c0-.77.07-1.28.2-1.53.19-.34.54-.51,1.06-.51h.38v-.63h-5.91v.63Z" />
       </svg>
     </div>
   );

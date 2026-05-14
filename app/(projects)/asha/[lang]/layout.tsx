@@ -3,7 +3,7 @@ import { IBM_Plex_Sans_Arabic, JetBrains_Mono } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { getDictionary, getDirection, hasLocale, locales } from './dictionaries';
 import SmoothScroll from './components/SmoothScroll';
-import AshaLoader from './components/AshaLoader';
+import PageLoader from '@/components/PageLoader/PageLoader';
 import './asha.css';
 
 const sansArabic = IBM_Plex_Sans_Arabic({
@@ -77,9 +77,9 @@ export default async function AshaLayout({
       className={`${sansArabic.variable} ${mono.variable} h-full antialiased`}
     >
       <body className="asha-root min-h-full">
-        <AshaLoader />
+        <PageLoader waitForSelector="video[data-h-video]" />
         <SmoothScroll />
-        <div className="asha-content">{children}</div>
+        <div className="page-content">{children}</div>
       </body>
     </html>
   );

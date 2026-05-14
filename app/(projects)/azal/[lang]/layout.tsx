@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import localFont from 'next/font/local';
 import { notFound } from 'next/navigation';
 import { getDictionary, getDirection, hasLocale, locales } from './dictionaries';
-import PageLoader from './components/PageLoader';
+import PageLoader from '@/components/PageLoader/PageLoader';
 import SmoothScroll from './components/SmoothScroll';
 
 const clashDisplay = localFont({
