@@ -357,7 +357,6 @@
   z-index: 2;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
   gap: 28px;
   width: min(1320px, 100% - 64px);
   margin-inline: auto;
