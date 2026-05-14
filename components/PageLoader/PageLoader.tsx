@@ -66,6 +66,11 @@ export default function PageLoader({
 
     const start = performance.now();
     let resolved = false;
+    // If we resolved on a <video> match, kick off playback from frame 0
+    // 10ms before fade-out finishes — so the first frame is visible the
+    // moment the page reveals, not seconds earlier during the loader.
+    let videoToStart: HTMLVideoElement | null = null;
+    const PLAY_LEAD_MS = 10;
     const settle = () => {
       if (resolved) return;
       resolved = true;
@@ -75,6 +80,19 @@ export default function PageLoader({
       window.setTimeout(() => {
         overlay.style.transition = `opacity ${fadeMs}ms ease`;
         overlay.style.opacity = '0';
+        if (videoToStart) {
+          const v = videoToStart;
+          window.setTimeout(() => {
+            try {
+              v.currentTime = 0;
+            } catch {
+              /* some browsers throw if metadata isn't ready */
+            }
+            v.play().catch(() => {
+              /* autoplay refusal — ignore, the loop will pick up later */
+            });
+          }, Math.max(0, fadeMs - PLAY_LEAD_MS));
+        }
         window.setTimeout(() => {
           root.classList.remove('is-page-loading');
           setHidden(true);
@@ -90,6 +108,7 @@ export default function PageLoader({
         const el = document.querySelector(waitForSelector);
         if (!el) return false;
         if (el instanceof HTMLVideoElement) {
+          videoToStart = el;
           if (el.readyState >= 2) {
             settle();
             return true;

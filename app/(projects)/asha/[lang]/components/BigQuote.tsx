@@ -1,4 +1,5 @@
 import type { Dictionary } from '../dictionaries';
+import BigQuoteCarousel from './BigQuoteCarousel';
 import Pill from './Pill';
 import Reveal from './Reveal';
 import { ArrowLeft, ArrowRight } from './Icons';
@@ -23,7 +24,11 @@ export default function BigQuote({ dict }: Props) {
             ))}
           </p>
         </Reveal>
+      </div>
 
+      <BigQuoteCarousel dict={dict} />
+
+      <div className="asha-container">
         <Reveal className="asha-bigquote-row" stagger>
           <div className="asha-arrows" data-reveal-child>
             <button className="asha-arrow-btn" aria-label="Prev">

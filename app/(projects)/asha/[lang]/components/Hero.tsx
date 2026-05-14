@@ -121,7 +121,6 @@ export default function Hero({ dict }: Props) {
           className="asha-hero-video"
           data-h-video
           src="/asha/herovideo.mp4"
-          autoPlay
           muted
           loop
           playsInline

@@ -66,7 +66,23 @@
       { "text": " and an environment that lets", "tone": "normal" },
       { "text": " business grow.", "tone": "gold" }
     ],
-    "cta": "Explore facilities"
+    "cta": "Explore facilities",
+    "carousel": {
+      "items": [
+        { "kicker": "01", "title": "Contemporary architecture" },
+        { "kicker": "02", "title": "Green spaces" },
+        { "kicker": "03", "title": "Natural light" },
+        { "kicker": "04", "title": "Corporate privacy" },
+        { "kicker": "05", "title": "Operational efficiency" },
+        { "kicker": "06", "title": "Services & amenities" }
+      ],
+      "ctaCard": {
+        "kicker": "Book a tour",
+        "title": "Visit the masterplan",
+        "button": "Book a visit"
+      },
+      "cardCta": "Book a visit"
+    }
   },
   "features": {
     "eyebrow": "02 — Facilities & amenities",
