@@ -5,7 +5,8 @@ import WhatsappIcon from './WhatsappIcon';
 
 const PHONE = '+966 50 225 0056';
 const PHONE_TEL = '+966502250056';
-const WHATSAPP = '966573778850';
+const WHATSAPP_URL =
+  'https://api.whatsapp.com/send/?phone=966573778850&text=%D9%85%D8%B1%D8%AD%D8%A8%D8%A7%D8%8C+%D8%A3%D9%88%D8%AF+%D9%85%D8%B9%D8%B1%D9%81%D8%A9+%D8%AA%D9%81%D8%A7%D8%B5%D9%8A%D9%84+%D8%A3%D9%83%D8%AB%D8%B1+%D8%B9%D9%86+%D9%85%D8%B4%D8%B1%D9%88%D8%B9+%D8%A3%D8%B2%D9%84+-+%D8%A3%D9%86%D8%B3+%D8%A8%D9%86+%D9%85%D8%A7%D9%84%D9%83%D8%8C+%D8%AD%D9%8A+%D8%A7%D9%84%D9%85%D9%84%D9%82%D8%A7&type=phone_number&app_absent=0';
 const WHATSAPP_DISPLAY = '+966 57 377 8850';
 const EMAIL = 'Commercial@wasf.com.sa';
 
@@ -31,7 +32,7 @@ export default function Contact({ dict }: { dict: Dictionary }) {
             <ContactRow
               label={dict.contact.whatsapp}
               value={WHATSAPP_DISPLAY}
-              href={`https://wa.me/${WHATSAPP}`}
+              href={WHATSAPP_URL}
               icon={<WhatsappIcon />}
               tone="whatsapp"
             />
