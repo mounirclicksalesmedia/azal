@@ -3,6 +3,7 @@ import { IBM_Plex_Sans_Arabic, JetBrains_Mono } from 'next/font/google';
 import { notFound } from 'next/navigation';
 import { getDictionary, getDirection, hasLocale, locales } from './dictionaries';
 import SmoothScroll from './components/SmoothScroll';
+import AshaLoader from './components/AshaLoader';
 import './asha.css';
 
 const sansArabic = IBM_Plex_Sans_Arabic({
@@ -68,6 +69,7 @@ export default async function AshaLayout({
   const { lang } = await params;
   if (!hasLocale(lang)) notFound();
   const dir = getDirection(lang);
+  const dict = await getDictionary(lang);
 
   return (
     <html
@@ -76,8 +78,9 @@ export default async function AshaLayout({
       className={`${sansArabic.variable} ${mono.variable} h-full antialiased`}
     >
       <body className="asha-root min-h-full">
+        <AshaLoader brand={dict.brand} />
         <SmoothScroll />
-        {children}
+        <div className="asha-content">{children}</div>
       </body>
     </html>
   );
