@@ -351,10 +351,17 @@
   z-index: 2;
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 28px;
   width: min(1320px, 100% - 64px);
   margin-inline: auto;
   will-change: transform, opacity;
+}
+.asha-hero-stage > .asha-eyebrow {
+  align-self: flex-start;
+  width: auto;
+  max-width: 100%;
+  white-space: nowrap;
 }
 
 .asha-hero-title { margin-top: 8px; }
