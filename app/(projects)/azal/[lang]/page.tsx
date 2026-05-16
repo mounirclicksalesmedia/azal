@@ -10,6 +10,7 @@ import Location from './components/Location';
 import Contact from './components/Contact';
 import Footer from './components/Footer';
 import StickyWhatsapp from './components/StickyWhatsapp';
+import Pixels from './components/Pixels';
 
 const Hero = dynamic(() => import('./components/Hero'), {
   loading: () => (
@@ -51,6 +52,7 @@ export default async function Page({
 
   return (
     <>
+      <Pixels />
       <Nav dict={dict} lang={lang} />
       <main>
         <Hero dict={dict} dir={dir} />

@@ -1,3 +1,5 @@
+'use client';
+
 import type { Dictionary } from '../dictionaries';
 
 const WHATSAPP_URL =
@@ -11,6 +13,12 @@ export default function StickyWhatsapp({ dict }: { dict: Dictionary }) {
       rel="noreferrer"
       className="sticky-whatsapp"
       aria-label={dict.contact.whatsapp}
+      onClick={() => {
+        try {
+          const w = window as Window & { azalTrack?: (e: string) => void };
+          w.azalTrack?.('whatsapp_click');
+        } catch {}
+      }}
     >
       <span className="sticky-whatsapp-pulse" aria-hidden />
       <span className="sticky-whatsapp-pulse sticky-whatsapp-pulse--delay" aria-hidden />

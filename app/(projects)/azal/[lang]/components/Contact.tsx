@@ -1,7 +1,17 @@
+'use client';
+
 import type { Dictionary } from '../dictionaries';
 import Reveal from './Reveal';
 import BookForm from './BookForm';
 import WhatsappIcon from './WhatsappIcon';
+
+type AzalEvent = 'form_submit' | 'whatsapp_click' | 'call_click';
+function fireAzal(event: AzalEvent) {
+  try {
+    const w = window as Window & { azalTrack?: (e: AzalEvent) => void };
+    w.azalTrack?.(event);
+  } catch {}
+}
 
 const PHONE = '+966 50 225 0056';
 const PHONE_TEL = '+966502250056';
@@ -35,11 +45,13 @@ export default function Contact({ dict }: { dict: Dictionary }) {
               href={WHATSAPP_URL}
               icon={<WhatsappIcon />}
               tone="whatsapp"
+              onClick={() => fireAzal('whatsapp_click')}
             />
             <ContactRow
               label={dict.contact.phone}
               value={PHONE}
               href={`tel:${PHONE_TEL}`}
+              onClick={() => fireAzal('call_click')}
               icon={
                 <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
                   <path
@@ -91,6 +103,7 @@ function ContactRow({
   icon,
   tone = 'default',
   valueDir = 'ltr',
+  onClick,
 }: {
   label: string;
   value: string;
@@ -98,6 +111,7 @@ function ContactRow({
   icon: React.ReactNode;
   tone?: 'default' | 'whatsapp';
   valueDir?: 'ltr' | 'rtl' | 'auto';
+  onClick?: () => void;
 }) {
   return (
     <a
@@ -106,6 +120,7 @@ function ContactRow({
       rel={href.startsWith('http') ? 'noreferrer' : undefined}
       className="contact-row"
       data-tone={tone}
+      onClick={onClick}
     >
       <span
         className="contact-row-icon"

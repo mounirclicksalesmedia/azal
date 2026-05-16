@@ -104,6 +104,16 @@ export default function BookForm({ dict }: Props) {
       }
 
       setSubmitted(true);
+      try {
+        const w = window as Window & {
+          azalTrack?: (e: string, p?: { email?: string; phone?: string; name?: string }) => void;
+        };
+        w.azalTrack?.('form_submit', {
+          email: String(data.get('email') ?? '').trim(),
+          phone: String(data.get('phone') ?? '').trim(),
+          name: String(data.get('full-name') ?? '').trim(),
+        });
+      } catch {}
       form.reset();
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Something went wrong');
